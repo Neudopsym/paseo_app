@@ -1,6 +1,6 @@
 // Paseo service worker: the app opens even without internet.
 // Speech recognition itself still needs internet (Google's recogniser in Chrome).
-const CACHE = "paseo-v8";
+const CACHE = "paseo-v9";
 const PREFIX = "paseo-v";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./data/es/a1.json", "./data/es/a2.json", "./data/es/b1.json", "./data/es/b2.json", "./data/es/course.json", "./data/es/grammar.json", "./data/es/verbs.json", "./data/ru/a1.json", "./data/ru/a2.json", "./data/ru/b1.json", "./data/ru/b2.json", "./data/ru/course.json", "./data/ru/grammar.json", "./data/ru/verbs.json",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/maskable-512.png", "./icons/apple-touch-icon.png"];
