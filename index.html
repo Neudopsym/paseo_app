@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Paseo</title>
+<meta name="description" content="Kurzy španielčiny a ruštiny A1–B2: lekcie, kartičky, gramatika a kontrola výslovnosti.">
+<meta name="theme-color" content="#DFF3D6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121413" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* VOICE: a calm, quiet coach for a walk in the park.
+   IDEA: a pocket course book: chapters by level, each with its word list, a spoken drill and a dialogue.
+   COLOUR: muted sage and eucalyptus greens, nothing loud.
+   TYPE: Lexend for Spanish phrases and headings, Figtree for text.
+   LAYOUT: one narrow app column, sticky practice controls, fixed bottom tab bar. */
+:root{
+  --bg:#DFF3D6; --surface:#FFFFFF; --ink:#1A1D1B; --muted:#555B57; --line:#D9E8D6;
+  --accent:#2E8540; --accent-soft:#DCF2D6; --on-accent:#FFFFFF;
+  --olive:#1E6B30; --olive-soft:#DCF2D6; --warn:#A04632;
+  --b0:#E4EEE1; --b1:#BFE0B5; --b2:#86C47A; --b3:#4A9A4F; --b4:#2E8540;
+  --display:"Lexend", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r:18px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#121413; --surface:#1B1F1D; --ink:#E8ECE9; --muted:#A3ABA6; --line:#2C322F;
+  --accent:#7CC39C; --accent-soft:#1F3328; --on-accent:#0E1A14;
+  --olive:#8FCBA9; --olive-soft:#1F3328; --warn:#E3A08E;
+  --b0:#262B28; --b1:#2F4A3B; --b2:#46705A; --b3:#6A9C80; --b4:#8FCBA9;
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#121413; --surface:#1B1F1D; --ink:#E8ECE9; --muted:#A3ABA6; --line:#2C322F;
+  --accent:#7CC39C; --accent-soft:#1F3328; --on-accent:#0E1A14;
+  --olive:#8FCBA9; --olive-soft:#1F3328; --warn:#E3A08E;
+  --b0:#262B28; --b1:#2F4A3B; --b2:#46705A; --b3:#6A9C80; --b4:#8FCBA9;
+  color-scheme:dark; }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{padding-top:env(safe-area-inset-top, 0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;overflow-x:clip;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--olive)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+
+.app{max-width:600px;margin:0 auto;padding-block:16px 120px;display:flex;flex-direction:column;gap:18px}
+header.top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;line-height:1;color:var(--ink);text-decoration:none}
+.brand span{color:var(--accent)}
+.topright{display:flex;align-items:center;gap:10px;min-width:0}
+.sync{font-size:.78rem;color:var(--muted);text-align:right}
+.install{border:1.5px solid var(--olive);background:var(--olive-soft);border-radius:999px;padding:6px 12px;font-weight:600;font-size:.85rem;flex:none}
+
+h2{font-family:var(--display);font-weight:700;font-size:1.35rem;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0}
+.lede{color:var(--muted);margin:4px 0 0;font-size:.95rem}
+.label{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pkey{font-size:.82rem;color:var(--muted)}
+section.view{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:16px}
+
+/* Course map */
+.level{display:flex;flex-direction:column;gap:10px}
+.levelhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px}
+.levelhead h2 span{color:var(--accent)}
+.lrow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink)}
+.lrow:hover{border-color:var(--accent)}
+.lnum{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--olive-soft);color:var(--olive);font-variant-numeric:tabular-nums}
+.lrow.planned{background:transparent}
+.lrow.planned .lnum{background:transparent;border:1.5px dashed var(--line);color:var(--muted)}
+.ltitle{font-family:var(--display);font-weight:600;font-size:1.02rem;line-height:1.25}
+.lgoal{font-size:.86rem;color:var(--muted);line-height:1.35;margin-top:2px}
+.lside{display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums;min-width:64px}
+.mini{width:64px;height:6px;border-radius:4px;background:var(--b0);overflow:hidden;display:flex}
+.mini i{display:block;height:100%}
+.tag{font-size:.72rem;font-weight:600;border:1.5px dashed var(--line);border-radius:999px;padding:2px 8px;color:var(--muted);white-space:nowrap}
+
+/* Lesson */
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--muted);font-weight:600;font-size:.92rem;align-self:flex-start;padding:4px 0}
+.lhead{display:flex;flex-direction:column;gap:6px}
+.lhead h2{font-size:1.7rem}
+.bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--b0)}
+.bar i{display:block;height:100%}
+.seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:4px;gap:4px}
+.seg.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.seg.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.seg.four button{font-size:.84rem;padding:8px 2px;line-height:1.2}
+@media (max-width: 400px){ .seg.four button{font-size:.78rem} }
+@media (max-width: 350px){ .seg.four button{font-size:.68rem;padding:8px 0} }
+.xsent{font-family:var(--display);font-weight:600;font-size:clamp(1.3rem, 5.6vw, 1.7rem);line-height:1.35;margin-top:10px}
+.xsent .blank{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--accent);color:var(--accent);text-align:center;padding:0 4px}
+.xsent .blank.ok{color:var(--olive);border-color:var(--olive)}
+.xsent .blank.bad{color:var(--warn);border-color:var(--warn)}
+.xhint{font-size:1rem;color:var(--muted);margin-top:6px}
+.xhint b{color:var(--ink)}
+.xform{display:flex;gap:8px;margin-top:10px}
+.xform input{flex:1;min-width:0;font-size:18px;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);min-height:52px}
+.xform input:focus{border-color:var(--olive);outline:none}
+.xform .play{flex:none;font-size:1rem;padding:0 14px}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.keys.full{display:grid;gap:4px}
+.keys.full .krow{display:flex;gap:3px}
+.keys.full .krow button{flex:1 1 0;min-width:0;padding:0;min-height:42px;font-size:1.02rem}
+.keys.full .krow button.wide{flex:3 1 0;font-size:.85rem;font-weight:600}
+.kbdswitch{margin-top:6px;border:0;background:none;color:var(--muted);font-size:.85rem;padding:4px 0;text-decoration:underline}
+.keys button{min-width:40px;min-height:40px;border:1.5px solid var(--line);background:var(--bg);border-radius:10px;font-weight:600;font-size:1.05rem}
+.xfull{font-weight:600;font-size:1.05rem}
+.seg button{border:0;background:transparent;border-radius:10px;padding:9px 6px;font-weight:600;font-size:.92rem;line-height:1.25;min-height:44px}
+.seg button small{display:block;font-weight:500;color:var(--muted);font-size:.76rem}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.group{display:flex;flex-direction:column;gap:6px}
+.words{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-top:1px solid var(--line)}
+.wrow:first-child{border-top:0}
+.wtext{border:0;background:none;text-align:left;padding:0;min-width:0}
+.wes{font-family:var(--display);font-weight:600;font-size:1.02rem;line-height:1.3;display:flex;align-items:center;gap:8px}
+.wsk{font-size:.88rem;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--b0);flex:none}
+.dot.d1{background:var(--b2)}.dot.d2{background:var(--b4)}
+.hear{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;flex:none}
+.hear svg{width:20px;height:20px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--olive);background:var(--olive-soft);color:var(--ink);border-radius:14px;padding:10px 14px;font-weight:600;text-decoration:none;min-height:44px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.gtable{width:100%;border-collapse:collapse;font-size:.9rem}
+.gtable th{text-align:left;font-size:.74rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+.gtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gtable tr:last-child td{border-bottom:0}
+.gtable .ex{font-family:var(--display);font-weight:500;font-style:italic;color:var(--olive)}
+.lvl{display:inline-block;font-size:.72rem;font-weight:700;border-radius:6px;padding:1px 6px;background:var(--olive-soft);color:var(--olive)}
+.scroll{overflow-x:auto}
+
+/* Practice stage */
+.stage{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;display:flex;flex-direction:column;gap:6px;position:relative}
+.stagehead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.phase{display:inline-flex;align-items:center;gap:8px;font-size:.92rem;font-weight:600;color:var(--muted);margin-top:4px}
+.phase::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line);flex:none}
+.stage.speak-you .phase{color:var(--olive)}
+.stage.speak-you .phase::before{background:var(--olive);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.5}}
+.ptarget{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem, 7vw, 2.3rem);line-height:1.25;letter-spacing:-.01em;display:flex;flex-wrap:wrap;gap:.05em .3em;min-width:0;margin-top:8px}
+.ptarget.long{font-size:clamp(1.3rem, 5.4vw, 1.75rem)}
+.ptarget.hiddenword{color:var(--line)}
+.ptarget .w{border:0;background:none;padding:0;font:inherit;letter-spacing:inherit;color:inherit;border-radius:6px;
+  text-decoration-line:underline;text-decoration-thickness:3px;text-decoration-color:transparent;text-underline-offset:7px}
+.ptarget .w.ok{color:var(--olive);text-decoration-color:var(--olive)}
+.ptarget .w.close{text-decoration-color:var(--accent);text-decoration-style:dotted}
+.ptarget .w.miss{color:var(--warn);text-decoration-color:var(--warn);text-decoration-style:wavy}
+.ptarget + .sk{margin-top:10px}
+.sk{font-size:1.1rem;color:var(--muted);font-weight:500}
+.plive{color:var(--muted);font-style:italic;min-height:1.5em}
+.presult{display:flex;flex-direction:column;gap:10px;margin-top:10px;padding-top:12px;border-top:1.5px dashed var(--line)}
+.pscore{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.pscore b{font-family:var(--display);font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.pscore span{font-weight:600}
+.pheard{display:flex;flex-direction:column;gap:2px}
+.lbar{position:sticky;bottom:calc(66px + env(safe-area-inset-bottom, 0px));z-index:4;background:var(--bg);padding-block:8px;margin-block:-8px;display:flex;gap:8px;align-items:stretch}
+.lbar > *{min-height:56px}
+.play{flex:1;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:16px;background:var(--accent);color:var(--on-accent);font-family:var(--display);font-weight:700;font-size:1.05rem;padding:14px 10px;min-width:0;white-space:nowrap}
+.play svg{width:22px;height:22px;flex:none}
+.play.mic.on{background:var(--olive);color:var(--surface)}
+.ghost{border:1.5px solid var(--line);background:var(--surface);border-radius:16px;padding:0 16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.ghost svg{width:20px;height:20px}
+.iconbtn{flex:none;width:56px;padding:0}
+.next{display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--olive);background:var(--olive-soft);color:var(--ink);border-radius:16px;padding:0 16px;font-family:var(--display);font-weight:700;font-size:1.05rem;flex:none}
+.next.grow{flex:1}
+.next svg{width:20px;height:20px}
+.warn{font-size:.88rem;background:var(--accent-soft);border-radius:12px;padding:10px 12px;margin:0}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+
+details.settings{background:var(--surface);border:1.5px solid var(--line);border-radius:14px}
+details.settings summary{padding:12px 14px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+details.settings summary::-webkit-details-marker{display:none}
+details.settings summary::after{content:"+";color:var(--muted);font-size:1.2rem;line-height:1}
+details.settings[open] summary::after{content:"–"}
+.set-grid{padding:0 14px 14px;display:grid;gap:14px}
+.row{display:flex;flex-direction:column;gap:6px}
+.row label{font-weight:600;font-size:.92rem}
+.val{color:var(--muted);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select{width:100%;padding:10px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:16px;min-height:44px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.check input{width:20px;height:20px;accent-color:var(--olive);margin-top:2px;flex:none}
+textarea{width:100%;font-size:16px;padding:10px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);resize:vertical}
+
+/* Cards */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:6px 13px;font-size:.88rem;font-weight:600;min-height:36px}
+.chip[aria-pressed="true"]{background:var(--olive);color:var(--surface);border-color:var(--olive)}
+.chip:disabled{opacity:.45;cursor:default}
+.mini-seg{display:flex;gap:6px;flex-wrap:wrap}
+.mini-seg button{border:1.5px solid var(--line);background:transparent;border-radius:10px;padding:6px 12px;font-size:.88rem;font-weight:600;min-height:36px}
+.mini-seg button[aria-pressed="true"]{border-color:var(--olive);background:var(--olive-soft)}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:20px 18px;min-height:240px;display:flex;flex-direction:column;gap:8px}
+.card .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .front{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem, 7.5vw, 2.4rem);line-height:1.1;letter-spacing:-.02em;text-wrap:balance;overflow-wrap:anywhere}
+.cardtop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dots{display:flex;gap:4px;align-items:center}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--olive)}
+.ex2{margin-top:12px;padding-top:12px;border-top:1.5px dashed var(--line);display:flex;flex-direction:column;gap:2px}
+.ex2 .e1{font-weight:600}
+.ex2 .e2{color:var(--muted);font-size:.92rem}
+.rate{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rate button{border:0;border-radius:14px;padding:15px 10px;font-weight:700;font-size:1rem}
+.btn-no{background:var(--accent-soft)}
+.btn-yes{background:var(--olive);color:var(--surface)}
+
+/* Dialogue */
+.script{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:8px;display:flex;flex-direction:column;gap:2px}
+.line{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;padding:9px 10px;border-radius:12px}
+.line .who{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-top:3px;overflow-wrap:anywhere}
+.line.you .who{color:var(--olive)}
+.line .l1{font-weight:600}
+.line .l2{color:var(--muted);font-size:.9rem}
+.line.now{background:var(--accent-soft)}
+.line .l1.masked{color:var(--muted);font-style:italic;font-weight:500}
+
+/* Progress */
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tile{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.tile b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{font-size:.8rem;color:var(--muted)}
+.prow{display:flex;flex-direction:column;gap:5px;text-decoration:none;color:var(--ink)}
+.prow .tp{display:flex;justify-content:space-between;gap:8px;font-size:.92rem;font-weight:600}
+.prow .tp span{color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.78rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.danger{border:1.5px solid var(--line);background:transparent;border-radius:12px;padding:9px 14px;font-weight:600;color:var(--muted);min-height:44px}
+.danger.armed{border-color:var(--warn);color:var(--warn)}
+.loading{color:var(--muted);padding:24px 0}
+/* Grammar reference */
+input[type=search]{width:100%;font-size:16px;padding:11px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);min-height:44px}
+input[type=search]:focus{border-color:var(--olive);outline:none}
+details.chap{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r)}
+details.chap > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;font-family:var(--display);font-weight:600;font-size:1.05rem;min-height:52px}
+details.chap > summary::-webkit-details-marker{display:none}
+details.chap > summary::after{content:"+";color:var(--muted);font-size:1.3rem;line-height:1;margin-left:4px}
+details.chap[open] > summary::after{content:"–"}
+details.chap > summary > span:first-child{flex:1;min-width:0}
+.chap-in{padding:0 12px 12px;display:flex;flex-direction:column;gap:12px}
+.gsec{display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:12px}
+.chap-in .gsec:first-child{border-top:0;padding-top:0}
+#gConjList .gsec{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px}
+.gsec-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.gsec p{margin:0;font-size:.95rem;line-height:1.55}
+.gsec i,.gtable i{color:var(--olive);font-weight:500}
+.ctable td{padding:6px 8px;white-space:nowrap}
+.ctable th{white-space:nowrap}
+.per{color:var(--muted);font-size:.82rem;white-space:normal!important;min-width:64px}
+button.form{border:0;background:none;padding:2px 0;font:inherit;font-family:var(--display);font-weight:500;color:var(--ink);text-align:left}
+button.form b{color:var(--olive);font-weight:700}
+button.form.irr{color:var(--warn);font-weight:700}
+.vinf{font-family:var(--display)}
+
+/* Tab bar */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1.5px solid var(--line);z-index:5;
+  padding:6px max(10px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px))}
+nav.tabs .in{max-width:600px;margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:12px;color:var(--muted);text-decoration:none;font-size:.74rem;font-weight:600}
+nav.tabs a svg{width:22px;height:22px}
+nav.tabs a[aria-current="page"]{color:var(--olive);background:var(--accent-soft)}
+@media (prefers-reduced-motion: reduce){ .stage.speak-you .phase::before{animation:none} }
+/* Language picker (shown on every start) */
+body.picking .app, body.picking nav.tabs{display:none!important}
+.pick{display:none}
+body.picking .pick{position:relative;display:flex;flex-direction:column;justify-content:center;gap:28px;min-height:100vh;min-height:100dvh;max-width:440px;margin:0 auto;padding-block:32px;padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px));box-sizing:border-box}
+.pick .brand{font-size:2.6rem}
+.pick .lede{font-size:1.05rem;margin-top:8px}
+.picklist{display:flex;flex-direction:column;gap:14px}
+.pickbtn{display:flex;align-items:center;gap:16px;width:100%;background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:var(--r);padding:20px 18px;min-height:76px;font-family:var(--display);font-weight:700;font-size:1.35rem;text-align:left;cursor:pointer}
+.pickbtn:hover{border-color:var(--accent)}
+.pickbtn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.pickbtn:active{transform:scale(.99)}
+.flag{flex:none;display:block;width:48px;height:32px;border-radius:5px;box-shadow:0 0 0 1px rgba(0,0,0,.14)}
+.langsw{flex:none;border:0;background:none;padding:6px;margin:-6px 0;min-width:44px;min-height:44px;display:inline-grid;place-items:center;cursor:pointer;border-radius:10px}
+.langsw .flag{width:30px;height:20px;border-radius:3px}
+.langsw:focus-visible{outline:3px solid var(--accent)}
+.pickinstall{position:absolute;top:max(14px, env(safe-area-inset-top, 0px));right:max(14px, env(safe-area-inset-right, 0px));display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--olive);background:var(--surface);color:var(--olive);border-radius:999px;padding:7px 13px;min-height:36px;font:600 .85rem var(--body);cursor:pointer}
+.pickinstall svg{width:16px;height:16px;flex:none}
+.pickinstall:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body class="picking">
+<div class="pick" id="langPick">
+  <button class="pickinstall" id="pickInstall" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Nainštalovať</button>
+  <div>
+    <div class="brand">Paseo<span>.</span></div>
+    <p class="lede">Vyber si jazyk.</p>
+  </div>
+  <div class="picklist">
+    <button class="pickbtn" data-pick="es"><svg class="flag" viewBox="0 0 750 500" aria-hidden="true"><rect width="750" height="500" fill="#AA151B"/><rect y="125" width="750" height="250" fill="#F1BF00"/></svg>Španielčina</button>
+    <button class="pickbtn" data-pick="ru"><svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#FFFFFF"/><rect y="2" width="9" height="2" fill="#0039A6"/><rect y="4" width="9" height="2" fill="#D52B1E"/></svg>Ruština</button>
+  </div>
+</div>
+<div class="app">
+  <header class="top">
+    <a class="brand" href="#kurz">Paseo<span>.</span></a>
+    <div class="topright"><button class="langsw" id="langSw" aria-label="Zmeniť jazyk" title="Zmeniť jazyk"></button><button class="install" id="installBtn" hidden>Nainštalovať</button><div class="sync" id="syncNote">Pokrok sa ukladá v tomto prehliadači</div></div>
+  </header>
+
+  <div class="loading" id="loading">Načítavam kurz…</div>
+
+  <!-- COURSE MAP -->
+  <section class="view" id="v-kurz" hidden>
+    <div>
+      <h2 data-l="courseTitle">Kurz španielčiny A1–B2</h2>
+      <p class="lede" data-l="courseLede">44 lekcií podľa učebníc Aula internacional.</p>
+    </div>
+    <div id="courseList"></div>
+  </section>
+
+  <!-- LESSON -->
+  <section class="view" id="v-lekcia" hidden>
+    <a class="back" href="#kurz">← Kurz</a>
+    <div class="lhead">
+      <span class="label" id="lsLabel"></span>
+      <h2 id="lsTitle"></h2>
+      <p class="lede" id="lsGoal"></p>
+      <div id="lsBarWrap"><div class="bar" id="lsBar"></div><p class="pkey" id="lsBarText" style="margin:4px 0 0"></p></div>
+    </div>
+    <div class="seg four" id="lsTabs" role="group" aria-label="Časti lekcie">
+      <button data-t="overview">Slovná zásoba</button><button data-t="practice">Rozprávanie</button><button data-t="ex">Cvičenia</button><button data-t="dialog">Dialóg</button>
+    </div>
+
+    <div id="lsPlanned" class="panel" hidden>
+      <p style="margin:0 0 10px"><b>Lekcia sa pripravuje.</b> Bude obsahovať:</p>
+      <p style="margin:0 0 6px"><span class="label">Slovná zásoba</span><br><span id="lsPVocab"></span></p>
+      <p style="margin:0"><span class="label">Gramatika</span><br><span id="lsPGram"></span></p>
+    </div>
+
+    <div id="lsOverview" class="view">
+      <div id="lsGroups" class="view"></div>
+      <div class="group">
+        <h3>Gramatika v tejto lekcii</h3>
+        <div class="words scroll" id="lsGram"></div>
+        <a href="#gramatika" class="pkey">Celá gramatika A1–B2 →</a>
+      </div>
+    </div>
+
+    <div id="lsPractice" class="view" hidden>
+      <div class="seg two" role="group" aria-label="Režim">
+        <button id="mListen" aria-pressed="true">Počúvaj a opakuj</button>
+        <button id="mQuiz" aria-pressed="false">Vyskúšaj sa</button>
+      </div>
+      <div class="stage" id="stage">
+        <div class="stagehead"><span class="label" id="lStep"></span><span class="pkey" id="lCount"></span></div>
+        <div class="phase" id="lPhase" aria-live="polite"></div>
+        <div class="ptarget" id="lTarget"></div>
+        <div class="sk" id="lSk"></div>
+        <div class="plive" id="lLive" aria-live="polite"></div>
+        <div class="presult" id="lResult" hidden>
+          <div class="pscore"><b id="lScore"></b><span id="lVerdict"></span></div>
+          <div class="pheard"><span class="label">Rozumel som</span><span id="lHeard"></span></div>
+          <span class="pkey">Zelené slovo sedí, bodkované je skoro, vlnovka znamená, že som ho nepočul. Ťukni na slovo a vypočuješ si ho pomaly.</span>
+        </div>
+      </div>
+      <div class="lbar">
+        <button class="ghost iconbtn" id="lHear" aria-label="Vypočuť znova"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4zM16 8.5a5 5 0 010 7l-1.4-1.4a3 3 0 000-4.2z"/></svg></button>
+        <button class="play mic" id="lMic" hidden></button>
+        <button class="play" id="lReveal" hidden>Zobraziť odpoveď</button>
+        <button class="next" id="lNext">Ďalej<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <p class="warn" id="lNote" hidden></p>
+      <p class="warn" id="voiceWarn" hidden></p>
+      <details class="settings">
+        <summary>Nastavenia lekcie</summary>
+        <div class="set-grid">
+          <div class="row">
+            <label for="rate">Rýchlosť reči <span class="val" id="rateVal"></span></label>
+            <input type="range" id="rate" min="0.6" max="1.1" step="0.05">
+          </div>
+          <label class="check"><input type="checkbox" id="withSentence"><span>Po slovíčku precvičiť aj príkladovú vetu</span></label>
+          <label class="check"><input type="checkbox" id="readSk"><span>Čítať nahlas aj slovenský preklad<br><small class="val" id="skVoiceNote"></small></span></label>
+          <div class="row">
+            <label for="esVoice" data-l="voiceLabel">Španielsky hlas</label>
+            <select id="esVoice"></select>
+          </div>
+          <button class="ghost" id="testVoice" style="padding:10px 14px;min-height:44px">Vyskúšať hlas</button>
+          <button class="ghost" id="restartLesson" style="padding:10px 14px;min-height:44px">Začať lekciu od začiatku</button>
+        </div>
+      </details>
+    </div>
+
+    <div id="lsEx" class="view" hidden>
+      <div class="stage">
+        <div class="stagehead"><span class="label" id="xIns" style="text-transform:none;letter-spacing:0;font-size:.9rem"></span><span class="pkey" id="xCount"></span></div>
+        <div class="xsent" id="xSent"></div>
+        <div class="xhint">Nápoveda: <b id="xHint"></b></div>
+        <form class="xform" id="xForm" autocomplete="off">
+          <input id="xIn" type="text" lang="es" data-lp="typePlaceholder" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Napíš po španielsky" aria-label="Tvoja odpoveď">
+          <button class="play" type="submit" id="xCheck">Skontrolovať</button>
+        </form>
+        <div class="keys" id="xKeys" aria-label="Špeciálne znaky"></div>
+        <button type="button" class="kbdswitch" id="kbdSwitch" hidden></button>
+        <div class="presult" id="xRes" hidden>
+          <div class="pscore"><b id="xMark"></b><span id="xVerdict"></span></div>
+          <div class="pheard"><span class="xfull" id="xFull"></span><span class="val" id="xSk"></span></div>
+        </div>
+      </div>
+      <div class="lbar">
+        <button class="ghost iconbtn" id="xSay" aria-label="Vypočuť vetu"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4zM16 8.5a5 5 0 010 7l-1.4-1.4a3 3 0 000-4.2z"/></svg></button>
+        <button class="ghost" id="xShow" style="flex:1">Zobraziť riešenie</button>
+        <button class="next" id="xNext">Ďalej<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <p class="pkey" id="xStat"></p>
+    </div>
+
+    <div id="lsDialog" class="view" hidden>
+      <h3 id="dTitle"></h3>
+      <div class="script" id="dScript"></div>
+      <div class="lbar"><button class="play" id="dPlay"></button></div>
+      <div class="set-grid" style="padding:0">
+        <label class="check"><input type="checkbox" id="roleplay"><span>Hrám svoju rolu (pri tvojej replike najprv zaznie slovenčina a pauza)</span></label>
+        <label class="check"><input type="checkbox" id="dSk"><span>Prekladať každú vetu nahlas</span></label>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="view" id="v-karticky" hidden>
+    <div>
+      <h2>Kartičky</h2>
+      <p class="lede">Vyber si všetky lekcie, celú úroveň alebo jednu lekciu. Slová, ktoré ešte nevieš, sa vracajú častejšie.</p>
+    </div>
+    <div class="row">
+      <label for="cSel">Slová z</label>
+      <select id="cSel"></select>
+    </div>
+    <div class="mini-seg" id="dirSeg">
+      <button data-d="es" data-l="dirFwd">Španielsky → slovensky</button><button data-d="sk" data-l="dirBack">Slovensky → španielsky</button>
+    </div>
+    <div class="card" id="card">
+      <div class="meta"><span class="label" id="cTopic"></span><span class="dots" id="cDots" aria-label="Úroveň zapamätania"></span></div>
+      <div class="cardtop">
+        <div class="front" id="cFront"></div>
+        <button class="hear" id="cHear" aria-label="Prehrať výslovnosť"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4zM16 8.5a5 5 0 010 7l-1.4-1.4a3 3 0 000-4.2z"/></svg></button>
+      </div>
+      <div id="cBack" hidden>
+        <div style="font-size:1.3rem;font-weight:600" id="cAns"></div>
+        <div class="ex2"><span class="e1" id="cEx"></span><span class="e2" id="cExSk"></span></div>
+      </div>
+    </div>
+    <button class="play" id="cReveal" style="flex:none;min-height:56px">Zobraziť odpoveď</button>
+    <div class="rate" id="cRate" hidden>
+      <button class="btn-no" id="cNo">Ešte neviem</button>
+      <button class="btn-yes" id="cYes">Viem</button>
+    </div>
+    <p class="pkey" id="cStat"></p>
+  </section>
+
+  <!-- GRAMMAR -->
+  <section class="view" id="v-gramatika" hidden>
+    <div>
+      <h2>Gramatika A1–B2</h2>
+      <p class="lede" data-l="grammarLede">Príručka španielskej gramatiky: pravidlá, časovanie pravidelných slovies a nepravidelné slovesá.</p>
+    </div>
+    <div class="seg" id="gTabs" role="group" aria-label="Časti gramatiky">
+      <button data-g="rules">Pravidlá</button><button data-g="conj">Časovanie</button><button data-g="irr">Nepravidelné slovesá</button>
+    </div>
+
+    <div id="gRules" class="view">
+      <input type="search" id="gSearch" data-lp="grammarSearch" placeholder="Hľadať, napr. subjuntivo, por, ser" aria-label="Hľadať v gramatike">
+      <div class="chips" id="gLevels" aria-label="Úroveň"></div>
+      <div id="gChapters" class="view"></div>
+    </div>
+
+    <div id="gConj" class="view" hidden>
+      <p class="hint" data-l="conjHint">Vzorové slovesá <i>hablar</i>, <i>comer</i> a <i>vivir</i>. Koncovky sú zvýraznené. Ťukni na tvar a vypočuješ si ho.</p>
+      <div id="gConjList" class="view"></div>
+    </div>
+
+    <div id="gIrr" class="view" hidden>
+      <details class="settings" id="gGroupsBox">
+        <summary>Skupiny nepravidelností</summary>
+        <div class="scroll" style="padding:0 6px 10px"><table class="gtable" id="gGroups"></table></div>
+      </details>
+      <input type="search" id="gVerbSearch" data-lp="verbSearch" placeholder="Hľadať sloveso, napr. tener alebo mať" aria-label="Hľadať sloveso">
+      <p class="hint">Nepravidelné tvary sú zvýraznené. Ťukni na tvar a vypočuješ si ho.</p>
+      <div id="gVerbs" class="view"></div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="view" id="v-pokrok" hidden>
+    <div>
+      <h2>Tvoj pokrok</h2>
+      <p class="lede">Slovo vieš, keď ho v kartičkách trikrát za sebou označíš ako známe.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile"><b id="stKnown">0</b><span id="stKnownOf">slov vieš</span></div>
+      <div class="tile"><b id="stStreak">0</b><span>dní v rade</span></div>
+      <div class="tile"><b id="stMins">0</b><span>minút učenia</span></div>
+      <div class="tile"><b id="stPron">0</b><span>fráz vyslovených na 90 % a viac</span></div>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--b2)"></i>precvičené</span>
+      <span><i style="background:var(--b4)"></i>vieš</span>
+    </div>
+    <div id="progLevels" class="view"></div>
+    <p class="hint" id="syncLong"></p>
+    <details class="settings">
+      <summary>Záloha pokroku</summary>
+      <div class="set-grid">
+        <p class="hint">Zálohu si skopíruj napríklad do poznámok. Na inom zariadení ju sem vložíš a ťukneš na Obnoviť.</p>
+        <button class="ghost" id="bCopy" style="padding:10px 14px;min-height:44px">Kopírovať zálohu</button>
+        <textarea id="bText" rows="3" placeholder="Sem vlož skopírovanú zálohu" aria-label="Záloha"></textarea>
+        <button class="ghost" id="bRestore" style="padding:10px 14px;min-height:44px">Obnoviť zo zálohy</button>
+        <p class="hint" id="bMsg" aria-live="polite"></p>
+      </div>
+    </details>
+    <div><button class="danger" id="resetBtn">Vymazať pokrok</button></div>
+  </section>
+</div>
+
+<nav class="tabs" aria-label="Sekcie">
+  <div class="in">
+    <a href="#kurz" data-r="kurz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 015.5 4H11v16H5.5A1.5 1.5 0 014 18.5zM13 4h5.5A1.5 1.5 0 0120 5.5v13a1.5 1.5 0 01-1.5 1.5H13z"/></svg>Kurz</a>
+    <a href="#karticky" data-r="karticky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 012 2v12"/></svg>Kartičky</a>
+    <a href="#gramatika" data-r="gramatika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Gramatika</a>
+    <a href="#pokrok" data-r="pokrok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>Pokrok</a>
+  </div>
+</nav>
+
+<script type="application/json" id="paseo-langs">
+{
+ "es": {
+  "code": "es",
+  "speech": "es-ES",
+  "store": "paseo",
+  "title": "Paseo",
+  "description": "Kurz španielčiny A1–B2: lekcie, kartičky, gramatika a kontrola výslovnosti.",
+  "keys": [
+   [
+    "á",
+    "é",
+    "í",
+    "ó",
+    "ú",
+    "ñ",
+    "ü"
+   ]
+  ],
+  "num": {
+   "0": "cero",
+   "1": "uno",
+   "2": "dos",
+   "3": "tres",
+   "4": "cuatro",
+   "5": "cinco",
+   "6": "seis",
+   "7": "siete",
+   "8": "ocho",
+   "9": "nueve",
+   "10": "diez",
+   "12": "doce",
+   "15": "quince",
+   "20": "veinte",
+   "30": "treinta",
+   "42": "cuarenta y dos",
+   "50": "cincuenta",
+   "100": "cien",
+   "120": "ciento veinte",
+   "200": "doscientos",
+   "500": "quinientos",
+   "1000": "mil"
+  },
+  "t": {
+   "courseTitle": "Kurz španielčiny A1–B2",
+   "courseLede": "44 lekcií podľa učebníc Aula internacional.",
+   "voiceLabel": "Španielsky hlas",
+   "typePlaceholder": "Napíš po španielsky",
+   "dirFwd": "Španielsky → slovensky",
+   "dirBack": "Slovensky → španielsky",
+   "grammarLede": "Príručka španielskej gramatiky: pravidlá, časovanie pravidelných slovies a nepravidelné slovesá.",
+   "grammarSearch": "Hľadať, napr. subjuntivo, por, ser",
+   "conjHint": "Vzorové slovesá *hablar*, *comer* a *vivir*. Koncovky sú zvýraznené. Ťukni na tvar a vypočuješ si ho.",
+   "verbSearch": "Hľadať sloveso, napr. tener alebo mať",
+   "inLang": "po španielsky",
+   "noVoice": "Nenašiel som španielsky hlas. V nastaveniach telefónu (Prevod textu na reč) si stiahni španielčinu.",
+   "noRecog": "Telefón teraz nevie rozpoznávať španielčinu.",
+   "testPhrase": "Hola, ¿qué tal? Vamos a aprender español.",
+   "nearMiss": "Pozor na dĺžne a ñ: "
+  }
+ },
+ "ru": {
+  "code": "ru",
+  "speech": "ru-RU",
+  "store": "paseo.ru",
+  "title": "Paseo",
+  "description": "Kurz ruštiny A1–B2: lekcie, kartičky, gramatika a kontrola výslovnosti.",
+  "fullKeys": true,
+  "keys": [
+   [
+    "й",
+    "ц",
+    "у",
+    "к",
+    "е",
+    "н",
+    "г",
+    "ш",
+    "щ",
+    "з",
+    "х",
+    "ъ"
+   ],
+   [
+    "ф",
+    "ы",
+    "в",
+    "а",
+    "п",
+    "р",
+    "о",
+    "л",
+    "д",
+    "ж",
+    "э"
+   ],
+   [
+    "я",
+    "ч",
+    "с",
+    "м",
+    "и",
+    "т",
+    "ь",
+    "б",
+    "ю",
+    "ё",
+    "-"
+   ]
+  ],
+  "fold": {
+   "ё": "е"
+  },
+  "num": {
+   "0": "ноль",
+   "1": "один",
+   "2": "два",
+   "3": "три",
+   "4": "четыре",
+   "5": "пять",
+   "6": "шесть",
+   "7": "семь",
+   "8": "восемь",
+   "9": "девять",
+   "10": "десять",
+   "11": "одиннадцать",
+   "12": "двенадцать",
+   "13": "тринадцать",
+   "14": "четырнадцать",
+   "15": "пятнадцать",
+   "16": "шестнадцать",
+   "17": "семнадцать",
+   "18": "восемнадцать",
+   "19": "девятнадцать",
+   "20": "двадцать",
+   "30": "тридцать",
+   "40": "сорок",
+   "50": "пятьдесят",
+   "60": "шестьдесят",
+   "70": "семьдесят",
+   "80": "восемьдесят",
+   "90": "девяносто",
+   "100": "сто",
+   "200": "двести",
+   "300": "триста",
+   "400": "четыреста",
+   "500": "пятьсот",
+   "600": "шестьсот",
+   "1000": "тысяча"
+  },
+  "numJoin": " ",
+  "fonts": {
+   "href": "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap",
+   "display": "\"Noto Sans\", Roboto, \"Segoe UI\", system-ui, sans-serif",
+   "body": "\"Noto Sans\", Roboto, \"Segoe UI\", system-ui, -apple-system, sans-serif"
+  },
+  "t": {
+   "courseTitle": "Kurz ruštiny A1–B2",
+   "courseLede": "44 lekcií podľa učebníc Poechali! a Doroga v Rossiju.",
+   "voiceLabel": "Ruský hlas",
+   "typePlaceholder": "Napíš po rusky",
+   "dirFwd": "Rusky → slovensky",
+   "dirBack": "Slovensky → rusky",
+   "grammarLede": "Príručka ruskej gramatiky: azbuka a výslovnosť, pády, slovesá, časovanie a nepravidelné slovesá.",
+   "grammarSearch": "Hľadať, napr. genitív, vid, идти",
+   "conjHint": "Vzorové slovesá *читать* (1. časovanie), *говорить* (2. časovanie) a zvratné *заниматься*. Koncovky sú zvýraznené. Ťukni na tvar a vypočuješ si ho.",
+   "verbSearch": "Hľadať sloveso, napr. писать alebo písať",
+   "inLang": "po rusky",
+   "noVoice": "Nenašiel som ruský hlas. V nastaveniach telefónu (Prevod textu na reč) si stiahni ruštinu.",
+   "noRecog": "Telefón teraz nevie rozpoznávať ruštinu.",
+   "testPhrase": "Привет! Давай говорить по-русски.",
+   "nearMiss": "Takmer, pozor na písmeno й: ",
+   "kbdPhone": "Písať klávesnicou telefónu",
+   "kbdScreen": "Písať azbukou na obrazovke"
+  }
+ }
+}
+</script>
+<script>
+/* ---------- Language picker: shown on every start; the course starts only after a choice ---------- */
+const PASEO_FLAGS = {es: '<svg class="flag" viewBox="0 0 750 500" aria-hidden="true"><rect width="750" height="500" fill="#AA151B"/><rect y="125" width="750" height="250" fill="#F1BF00"/></svg>', ru: '<svg class="flag" viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="6" fill="#FFFFFF"/><rect y="2" width="9" height="2" fill="#0039A6"/><rect y="4" width="9" height="2" fill="#D52B1E"/></svg>'};
+const PASEO_LANGS = (() => { try { return JSON.parse(document.getElementById("paseo-langs").textContent); } catch(e){ return {}; } })();
+const PASEO_STANDALONE = !/claude|anthropic/i.test(location.hostname);
+window.__paseoInstall = null;
+if (PASEO_STANDALONE) {
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
+  // Chrome offers this event only while the app is not installed, so the buttons show only then.
+  const pickInst = document.getElementById("pickInstall");
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); window.__paseoInstall = e; pickInst.hidden = false; const b = document.getElementById("installBtn"); if (b && !document.body.classList.contains("picking")) b.hidden = false; });
+  addEventListener("appinstalled", () => { window.__paseoInstall = null; pickInst.hidden = true; });
+  pickInst.addEventListener("click", async () => {
+    const ev = window.__paseoInstall; if (!ev) return;
+    ev.prompt(); try { await ev.userChoice; } catch(e){}
+    window.__paseoInstall = null; pickInst.hidden = true;
+  });
+}
+// A fresh start always opens on the picker, so an old address of a lesson must not carry over.
+try { if (location.hash) history.replaceState(null, "", location.pathname + location.search); } catch(e){}
+let paseoStarted = false;
+document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+  const code = b.dataset.pick, L = PASEO_LANGS[code];
+  if (!L || paseoStarted) return;
+  paseoStarted = true;
+  document.body.classList.remove("picking");
+  document.getElementById("langSw").innerHTML = PASEO_FLAGS[code] || "";
+  try { window.scrollTo(0, 0); } catch(e){}
+  startPaseo(L);
+}));
+// Back to the picker: a reload, so nothing of the other language stays in memory (voice, keyboard, data).
+document.getElementById("langSw").addEventListener("click", () => {
+  try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch(e){}
+  try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
+  location.reload();
+});
+</script>
+<script>
+function startPaseo(LANG){
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const fmt = s => esc(s).replace(/\*(.+?)\*/g, "<i>$1</i>");
+const IN_CLAUDE = /claude|anthropic/i.test(location.hostname);
+const LT = LANG.t || {};
+const TL = LANG.code || "es";
+const STORE = LANG.store || "paseo";
+const DATA = "data/" + TL + "/";
+(function applyLang(){
+  if (LANG.title) document.title = LANG.title;
+  if (LANG.description) { const m = document.querySelector('meta[name="description"]'); if (m) m.content = LANG.description; }
+  document.querySelectorAll("[data-l]").forEach(el => { const v = LT[el.dataset.l]; if (v != null) el.innerHTML = String(v).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c])).replace(/\*(.+?)\*/g, "<i>$1</i>"); });
+  document.querySelectorAll("[data-lp]").forEach(el => { const v = LT[el.dataset.lp]; if (v != null) el.placeholder = v; });
+  const xi = document.getElementById("xIn"); if (xi) xi.lang = TL;
+  const br = document.querySelector(".app .brand"); if (br && LANG.brand) br.innerHTML = LANG.brand;
+  if (LANG.fonts) {
+    const l = document.createElement("link"); l.rel = "stylesheet"; l.href = LANG.fonts.href; document.head.append(l);
+    if (LANG.fonts.display) document.documentElement.style.setProperty("--display", LANG.fonts.display);
+    if (LANG.fonts.body) document.documentElement.style.setProperty("--body", LANG.fonts.body);
+  }
+})();
+const SPEAKER = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4zM16 8.5a5 5 0 010 7l-1.4-1.4a3 3 0 000-4.2z"/></svg>';
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+const ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>';
+
+/* ---------- Storage ---------- */
+const LS = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const S = Object.assign({rate: 0.9, readSk: null, esVoice: "", withSentence: true, mode: "listen", dir: "es", roleplay: true, dSk: false, cardSel: "A1", gLevel: "all", pos: {}, lessonTab: "overview"}, LS.get(STORE + ".settings", {}));
+if (!S.pos || typeof S.pos !== "object") S.pos = {};
+const saveSettings = () => LS.set(STORE + ".settings", S);
+function normalizeP(p){ p = p && typeof p === "object" ? p : {}; return {items: p.items || {}, days: Array.isArray(p.days) ? p.days : [], mins: +p.mins || 0, updated: +p.updated || 0, pron: p.pron && typeof p.pron === "object" ? p.pron : {}, ex: p.ex && typeof p.ex === "object" ? p.ex : {}}; }
+let P = normalizeP(LS.get(STORE + ".progress", null));
+const dayKey = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const today = () => dayKey(new Date());
+const it = id => P.items[id] || {b: 0, h: 0, t: 0};
+
+let dbRef = null, saveTimer = null, writing = false, again = false;
+function touch(){
+  const d = today(); if (!P.days.includes(d)) { P.days.push(d); if (P.days.length > 400) P.days = P.days.slice(-400); }
+  P.updated = Date.now(); LS.set(STORE + ".progress", P); scheduleSync();
+}
+function scheduleSync(){ if (!dbRef) return; clearTimeout(saveTimer); saveTimer = setTimeout(pushRemote, 2500); }
+async function pushRemote(){
+  if (!dbRef) return; if (writing) { again = true; return; }
+  writing = true;
+  try { await dbRef.set(JSON.parse(JSON.stringify(P))); }
+  catch(e){ if (e && (e.code === "invalid_argument" || e.code === "revoked" || e.code === "not_granted")) { dbRef = null; setSync(false); } }
+  writing = false; if (again) { again = false; pushRemote(); }
+}
+function mergeP(a, b){
+  const out = normalizeP(a), o = normalizeP(b);
+  for (const [k, v] of Object.entries(o.items)) { const m = out.items[k]; if (!m || (v.t || 0) > (m.t || 0)) out.items[k] = v; }
+  out.days = [...new Set([...out.days, ...o.days])].sort().slice(-400);
+  out.mins = Math.max(out.mins, o.mins); out.updated = Math.max(out.updated, o.updated);
+  for (const [k, v] of Object.entries(o.pron)) out.pron[k] = Math.max(out.pron[k] || 0, +v || 0);
+  for (const [k, v] of Object.entries(o.ex)) out.ex[k] = Math.max(out.ex[k] || 0, +v || 0);
+  return out;
+}
+function setSync(on){
+  $("syncNote").textContent = on ? "Pokrok sa ukladá do tvojho účtu" : (IN_CLAUDE ? "Pokrok sa ukladá v tomto prehliadači" : "Pokrok sa ukladá v tomto zariadení");
+  $("syncLong").textContent = on ? "Pokrok je uložený v tvojom účte Claude, takže na mobile aj na počítači pokračuješ tam, kde si skončil."
+    : "Pokrok je uložený len v tomto zariadení. Ak vymažeš údaje prehliadača, stratí sa, preto si občas sprav zálohu.";
+}
+(async () => {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if (!db || !user) return;
+    const uid = await user.id(); if (!uid) return;
+    const ref = db.doc("data/users/" + uid + (TL === "es" ? "/progress" : "/progress-" + TL));
+    const snap = await ref.get();
+    dbRef = ref; setSync(true);
+    if (snap.exists) { const remote = snap.data(); const localNewer = P.updated > (+remote.updated || 0); P = mergeP(P, remote); migrate(); LS.set(STORE + ".progress", P); refresh(); if (localNewer) scheduleSync(); }
+    else if (P.updated) scheduleSync();
+  } catch(e) { /* stays local */ }
+})();
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch(e){}
+
+/* ---------- Course data ---------- */
+let COURSE = null;
+const LESSON = {}, ITEMS = {};
+const ready = n => !!(LESSON[n] && LESSON[n].items.length);
+async function loadData(){
+  const res = await fetch(DATA + "course.json", {cache: "no-cache"});
+  if (!res.ok) throw new Error("course " + res.status);
+  COURSE = await res.json();
+  COURSE.lessons.forEach(l => { LESSON[l.n] = Object.assign({}, l, {groups: [], dialog: null, items: [], ex: []}); });
+  const levels = [...new Set(COURSE.ready.map(n => LESSON[n].level))];
+  await Promise.all(levels.map(async lv => {
+    const r = await fetch(DATA + lv.toLowerCase() + ".json", {cache: "no-cache"});
+    if (!r.ok) throw new Error(lv + " " + r.status);
+    const c = await r.json();
+    for (const [n, v] of Object.entries(c)) {
+      const L = LESSON[n]; if (!L) continue;
+      L.groups = v.groups; L.dialog = v.dialog; L.ex = v.ex || [];
+      L.items = v.groups.flatMap(g => g.items.map(x => Object.assign({}, x, {n: +n, group: g.name})));
+      L.items.forEach(x => { ITEMS[x.id] = x; });
+    }
+  }));
+}
+function migrate(){
+  if (!COURSE || !COURSE.legacy) return false;
+  let changed = false;
+  for (const [old, nu] of Object.entries(COURSE.legacy)) {
+    const v = P.items[old];
+    if (v) { const cur = P.items[nu]; if (!cur || (v.b || 0) > (cur.b || 0)) P.items[nu] = v; delete P.items[old]; changed = true; }
+    for (const step of [":phrase", ":sentence"]) {
+      const pv = P.pron[old + step];
+      if (pv != null) { const key = nu + step; P.pron[key] = Math.max(P.pron[key] || 0, pv); delete P.pron[old + step]; changed = true; }
+    }
+  }
+  return changed;
+}
+const levelOf = id => COURSE.levels.find(l => l.id === id);
+const lessonStats = n => {
+  const L = LESSON[n]; const total = L.items.length;
+  let known = 0, practiced = 0;
+  L.items.forEach(x => { const s = it(x.id); if (s.b >= 3) known++; else if (s.h || s.b > 0 || P.pron[x.id + ":phrase"] != null) practiced++; });
+  return {total, known, practiced};
+};
+const barHTML = st => st.total ? '<i style="width:' + (st.practiced / st.total * 100) + '%;background:var(--b2)"></i><i style="width:' + (st.known / st.total * 100) + '%;background:var(--b4)"></i>' : "";
+
+/* ---------- Course map ---------- */
+function renderCourse(){
+  const out = [];
+  COURSE.levels.forEach(lv => {
+    const ns = lv.lessons;
+    const readyNs = ns.filter(ready);
+    const words = readyNs.reduce((a, n) => a + LESSON[n].items.length, 0);
+    const known = readyNs.reduce((a, n) => a + lessonStats(n).known, 0);
+    out.push('<div class="level"><div class="levelhead"><h2><span>' + lv.id + '</span> · ' + esc(lv.name) + '</h2><span class="pkey">' +
+      (readyNs.length ? known + " / " + words + " slov vieš" : "pripravujem") + '</span></div><p class="lede" style="margin:0">' + esc(lv.desc) + '</p>');
+    ns.forEach(n => {
+      const L = LESSON[n];
+      if (ready(n)) {
+        const st = lessonStats(n);
+        out.push('<a class="lrow" href="#lekcia-' + n + '"><span class="lnum">' + n + '</span><span style="min-width:0"><span class="ltitle">' + esc(L.title) + '</span><span class="lgoal" style="display:block">' + esc(L.goal) +
+          '</span></span><span class="lside"><span>' + (st.known + st.practiced) + '/' + st.total + '</span><span class="mini">' + barHTML(st) + '</span></span></a>');
+      } else {
+        out.push('<a class="lrow planned" href="#lekcia-' + n + '"><span class="lnum">' + n + '</span><span style="min-width:0"><span class="ltitle">' + esc(L.title) + '</span><span class="lgoal" style="display:block">' + esc(L.goal) +
+          '</span></span><span class="tag">pripravujem</span></a>');
+      }
+    });
+    out.push("</div>");
+  });
+  $("courseList").innerHTML = out.join("");
+  $("courseList").className = "view";
+}
+
+/* ---------- Lesson page ---------- */
+let curN = null;
+function openLesson(n){
+  if (curN !== n) { stopEverything(); curN = n; lItem = null; S.lessonTab = "overview"; }
+  const L = LESSON[n];
+  $("lsLabel").textContent = L.level + " · Lekcia " + n;
+  $("lsTitle").textContent = L.title;
+  $("lsGoal").textContent = L.goal;
+  const isReady = ready(n);
+  $("lsTabs").hidden = !isReady; $("lsBarWrap").hidden = !isReady; $("lsPlanned").hidden = isReady;
+  if (!isReady) {
+    $("lsPVocab").innerHTML = fmt(L.vocab); $("lsPGram").innerHTML = fmt(L.grammar);
+    ["lsOverview", "lsPractice", "lsDialog", "lsEx"].forEach(id => { $(id).hidden = true; });
+    return;
+  }
+  renderLessonBar();
+  renderGroups();
+  renderLessonGrammar();
+  showLessonTab(S.lessonTab || "overview");
+}
+function renderLessonBar(){
+  if (!curN || !ready(curN)) return;
+  const st = lessonStats(curN);
+  $("lsBar").innerHTML = barHTML(st);
+  const xl = (LESSON[curN].ex || []).flatMap(b => b.items); const xd = xl.filter(x => P.ex[x.id] === 1).length;
+  $("lsBarText").textContent = st.known + " vieš · " + st.practiced + " precvičených · " + st.total + " slov a fráz" + (xl.length ? " · cvičenia " + xd + "/" + xl.length : "");
+}
+function renderGroups(){
+  const L = LESSON[curN];
+  $("lsGroups").innerHTML = L.groups.map((g, gi) => '<div class="group"><h3>' + esc(g.name) + '</h3><div class="words">' +
+    g.items.map(x => { const s = it(x.id); const d = s.b >= 3 ? "d2" : (s.h || s.b || P.pron[x.id + ":phrase"] != null ? "d1" : "");
+      return '<div class="wrow"><button class="wtext" data-id="' + esc(x.id) + '"><span class="wes"><span class="dot ' + d + '"></span>' + esc(x.es) + '</span><span class="wsk" style="display:block;padding-left:16px">' + esc(x.sk) +
+        '</span></button><button class="hear" data-say="' + esc(x.id) + '" aria-label="Vypočuť ' + esc(x.es) + '">' + SPEAKER + '</button></div>'; }).join("") + '</div></div>').join("");
+}
+$("lsGroups").addEventListener("click", e => {
+  const s = e.target.closest("[data-say]");
+  if (s) { const x = ITEMS[s.dataset.say]; if (x) sayOnce(x.es, "es"); return; }
+  const w = e.target.closest("[data-id]");
+  if (w) { const L = LESSON[curN]; const i = L.items.findIndex(x => x.id === w.dataset.id); if (i >= 0) { S.pos[curN] = i; saveSettings(); lItem = null; showLessonTab("practice"); } }
+});
+function renderLessonGrammar(){
+  const rows = [];
+  COURSE.grammar.forEach(a => a.rows.forEach(r => { if (r.lessons.includes(curN)) rows.push(r); }));
+  $("lsGram").innerHTML = rows.length ? '<table class="gtable"><thead><tr><th>Čo sa učíš</th><th>Príklad</th></tr></thead><tbody>' +
+    rows.map(r => '<tr><td>' + fmt(r.what) + '</td><td class="ex">' + esc(r.ex) + '</td></tr>').join("") + '</tbody></table>'
+    : '<p class="hint" style="padding:12px">Gramatiku tejto lekcie nájdeš v časti ' + fmt(LESSON[curN].grammar) + '.</p>';
+}
+function showLessonTab(t){
+  S.lessonTab = t; saveSettings();
+  if (t !== "practice" && listening()) { attempting = false; dict.stop().catch(() => {}); }
+  if (t !== "dialog" && dPlaying) stopDialog();
+  stopAll();
+  $("lsOverview").hidden = t !== "overview"; $("lsPractice").hidden = t !== "practice"; $("lsDialog").hidden = t !== "dialog"; $("lsEx").hidden = t !== "ex";
+  $("lsTabs").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.t === t));
+  if (t === "overview") { renderLessonBar(); renderGroups(); }
+  if (t === "practice") { if (!lItem) loadPos(); renderLesson(); lPhase(startText()); }
+  if (t === "dialog") { dIdx = -1; dRevealed = new Set(); renderScript(); }
+  if (t === "ex") { xLoad(); xRender(); }
+}
+$("lsTabs").onclick = e => { const b = e.target.closest("button"); if (b) showLessonTab(b.dataset.t); };
+
+/* ---------- Voices ---------- */
+const synth = window.speechSynthesis || null;
+let esVoices = [], skVoice = null;
+const vlang = v => (v.lang || "").replace("_", "-").toLowerCase();
+function loadVoices(){
+  if (!synth) { renderVoices(); return; }
+  const vs = synth.getVoices();
+  const score = v => (vlang(v) === (LANG.speech || "es-ES").toLowerCase() ? 4 : 0) + (/google|premium|enhanced|neural|natural|siri|mónica|monica|jorge/i.test(v.name) ? 2 : 0);
+  esVoices = vs.filter(v => vlang(v).startsWith(TL)).sort((a, b) => score(b) - score(a));
+  skVoice = vs.find(v => vlang(v).startsWith("sk")) || vs.find(v => vlang(v).startsWith("cs")) || null;
+  if (S.readSk === null && vs.length) { S.readSk = !!skVoice; saveSettings(); }
+  renderVoices();
+}
+const esVoice = () => esVoices.find(v => v.voiceURI === S.esVoice) || esVoices[0] || null;
+const otherEsVoice = () => { const a = esVoice(); return esVoices.find(v => v !== a && vlang(v) === vlang(a || {})) || esVoices.find(v => v !== a) || null; };
+function renderVoices(){
+  const sel = $("esVoice"); sel.innerHTML = "";
+  if (!esVoices.length) { const o = document.createElement("option"); o.textContent = "Predvolený hlas zariadenia"; sel.append(o); }
+  esVoices.forEach(v => { const o = document.createElement("option"); o.value = v.voiceURI; o.textContent = v.name + " (" + v.lang + ")"; sel.append(o); });
+  const cur = esVoice(); if (cur) sel.value = cur.voiceURI;
+  $("readSk").checked = !!S.readSk;
+  $("skVoiceNote").textContent = skVoice ? "Hlas: " + skVoice.name : "Zariadenie nemá slovenský hlas. Preklad vidíš na obrazovke.";
+  const w = $("voiceWarn");
+  if (!synth) { w.hidden = false; w.textContent = "Tento prehliadač nevie čítať nahlas. Skús Chrome alebo Safari."; }
+  else if (synth.getVoices().length && !esVoices.length) { w.hidden = false; w.textContent = LT.noVoice || "Nenašiel som španielsky hlas. V nastaveniach telefónu (Prevod textu na reč) si stiahni španielčinu."; }
+  else w.hidden = true;
+}
+if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; setTimeout(loadVoices, 800); }
+
+/* ---------- Speech engine ---------- */
+let token = 0; const cancelers = []; const keep = [];
+const STOP = {};
+const clean = s => s.normalize("NFC").replace(/\u0301/g, "").replace(/…/g, "").replace(/\.\.\./g, "").replace(/\s[\/–]\s/g, ", ").replace(/—/g, "").trim();
+function speak(text, kind, o = {}){
+  return new Promise(res => {
+    if (!synth) { setTimeout(res, 900); return; }
+    const t = clean(text);
+    const u = new SpeechSynthesisUtterance(t);
+    if (kind === "es") { const v = o.voice || esVoice(); u.lang = v ? v.lang : (LANG.speech || "es-ES"); if (v) u.voice = v; u.rate = o.rate || S.rate; }
+    else { u.lang = skVoice ? skVoice.lang : "sk-SK"; if (skVoice) u.voice = skVoice; u.rate = Math.min(1.1, (o.rate || S.rate) + 0.1); }
+    u.pitch = o.pitch || 1;
+    let done = false; const fin = () => { if (done) return; done = true; clearTimeout(w); res(); };
+    u.onend = fin; u.onerror = fin;
+    const w = setTimeout(fin, 3500 + t.length * 140 / u.rate);
+    cancelers.push(fin);
+    keep.push(u); if (keep.length > 6) keep.shift();
+    try { synth.resume(); } catch(e){}
+    synth.speak(u);
+  });
+}
+function wait(ms){ return new Promise(res => { const t = setTimeout(res, ms); cancelers.push(() => { clearTimeout(t); res(); }); }); }
+const guard = my => { if (my !== token) throw STOP; };
+async function say(my, text, kind, o){ guard(my); await speak(text, kind, o); guard(my); }
+async function pause(my, ms){ guard(my); await wait(ms); guard(my); }
+function stopAll(){ token++; if (synth) try { synth.cancel(); } catch(e){} cancelers.splice(0).forEach(f => f()); }
+function sayOnce(text, kind, o){ if (listening()) return; if (dPlaying) stopDialog(); stopAll(); const my = token; say(my, text, kind, o).catch(() => {}); }
+let wake = null;
+async function holdScreen(){ try { if (navigator.wakeLock && !wake) { wake = await navigator.wakeLock.request("screen"); wake.addEventListener("release", () => { wake = null; }); } } catch(e){ wake = null; } }
+function releaseScreen(){ try { wake && wake.release(); } catch(e){} wake = null; }
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && dPlaying) holdScreen(); });
+
+/* ---------- Practice: app speaks, you repeat, app checks ---------- */
+let dict = null, dictChecked = false, lItem = null, lStep = "phrase", lEval = null, revealed = false;
+let heard = "", attempting = false, pTimer = null, pHard = null, pState = "idle", lastAct = 0;
+const NUM = LANG.num || {};
+function numWord(m){
+  if (NUM[m]) return NUM[m];
+  const n = +m;
+  if (LANG.numJoin && n > 20 && n < 100 && NUM[String(n - n % 10)] && NUM[String(n % 10)]) return NUM[String(n - n % 10)] + LANG.numJoin + NUM[String(n % 10)];
+  return m;
+}
+function norm(s){
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/wi-?fi/g, "wifi").replace(/\d+/g, m => " " + numWord(m) + " ")
+    .replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+}
+function lev(a, b){
+  let prev = Array.from({length: b.length + 1}, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) { const cur = [i]; for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+  return prev[b.length];
+}
+function wscore(a, b){ if (a === b) return 1; return 1 - lev(a, b) / Math.max(a.length, b.length) >= 0.67 ? 0.6 : 0; }
+function align(T, H){
+  const n = T.length, m = H.length, D = Array.from({length: n + 1}, () => new Array(m + 1).fill(0)), W = [];
+  for (let i = 1; i <= n; i++) { W[i] = []; for (let j = 1; j <= m; j++) { const v = wscore(T[i - 1], H[j - 1]); W[i][j] = v; D[i][j] = Math.max(D[i - 1][j], D[i][j - 1], v ? D[i - 1][j - 1] + v : 0); } }
+  const out = new Array(n).fill("miss"); let i = n, j = m;
+  while (i > 0 && j > 0) { const v = W[i][j]; if (v && Math.abs(D[i][j] - (D[i - 1][j - 1] + v)) < 1e-9) { out[i - 1] = v === 1 ? "ok" : "close"; i--; j--; } else if (D[i - 1][j] >= D[i][j - 1]) i--; else j--; }
+  return out;
+}
+const quiz = () => S.mode === "quiz";
+const lText = () => lStep === "sentence" ? lItem.ex : lItem.es;
+const lTrans = () => lStep === "sentence" ? lItem.exSk : lItem.sk;
+const lKey = () => lItem.id + ":" + lStep;
+const lToks = () => lText().split(/\s+/).filter(Boolean).map(raw => ({raw, n: norm(raw), s: ""}));
+const listening = () => !!(dict && dict.active());
+function tick(){ const now = Date.now(); if (lastAct) P.mins += Math.min(now - lastAct, 120000) / 60000; lastAct = now; }
+function lPhase(text, you){ $("lPhase").textContent = text; $("stage").classList.toggle("speak-you", !!you); }
+function lNote(msg){ const n = $("lNote"); n.hidden = !msg; n.textContent = msg || ""; }
+const IN_L = LT.inLang || "po španielsky";
+function startText(){ return quiz() ? "Ako sa to povie " + IN_L + "? Povedz to nahlas." : "Ťukni na reproduktor a vypočuj si to"; }
+function yourTurn(){
+  if (!dict) return quiz() ? "Povedz to " + IN_L + ", potom si zobraz odpoveď" : "Teraz to zopakuj nahlas";
+  return quiz() ? "Tvoj rad: ťukni na Odpovedať a povedz to " + IN_L : "Tvoj rad: ťukni na Zopakovať a povedz to nahlas";
+}
+function loadPos(){
+  const L = LESSON[curN]; let i = +S.pos[curN] || 0; if (i >= L.items.length) i = 0;
+  lItem = L.items[i]; lStep = "phrase"; lEval = null; revealed = false; heard = "";
+}
+function renderLesson(){
+  if (!lItem) return;
+  const L = LESSON[curN], idx = L.items.indexOf(lItem);
+  $("lStep").textContent = (lStep === "sentence" ? "Veta" : "Slovíčko") + (S.withSentence ? " · krok " + (lStep === "sentence" ? 2 : 1) + " z 2" : "");
+  const best = P.pron[lKey()];
+  $("lCount").textContent = (idx + 1) + " / " + L.items.length + (best ? " · najlepšie " + best + " %" : "");
+  const el = $("lTarget"), hide = quiz() && !revealed;
+  el.innerHTML = ""; el.classList.toggle("long", lStep === "sentence" || lText().length > 22); el.classList.toggle("hiddenword", hide);
+  if (hide) el.textContent = "· · ·";
+  else (lEval ? lEval.toks : lToks()).forEach(t => {
+    if (!t.n) { const sp = document.createElement("span"); sp.textContent = t.raw; el.append(sp); return; }
+    const b = document.createElement("button"); b.className = "w" + (t.s ? " " + t.s : ""); b.textContent = t.raw;
+    b.setAttribute("aria-label", "Vypočuť slovo " + t.raw); b.onclick = () => sayOnce(t.raw, "es", {rate: S.rate * 0.75}); el.append(b);
+  });
+  $("lSk").textContent = lTrans();
+  $("lResult").hidden = !lEval;
+  if (lEval) { $("lScore").textContent = lEval.score + " %"; $("lVerdict").textContent = lEval.verdict; $("lHeard").textContent = lEval.heard || "nič"; }
+  $("lHear").hidden = hide;
+  $("lMic").hidden = !dict;
+  $("lReveal").hidden = !(dictChecked && !dict && hide);
+  $("lNext").classList.toggle("grow", !dict && $("lReveal").hidden);
+  renderMic();
+}
+async function playPrompt(){
+  if (listening() || !lItem) return;
+  if (dPlaying) stopDialog();
+  stopAll(); const my = token;
+  try {
+    if (quiz() && !revealed) {
+      lPhase("Ako sa to povie " + IN_L + "?");
+      if (S.readSk) await say(my, lTrans(), "sk");
+    } else {
+      lPhase("Počúvaj");
+      await say(my, lText(), "es");
+      if (S.readSk) { await pause(my, 400); lPhase("Preklad"); await say(my, lTrans(), "sk"); }
+      await pause(my, 500); lPhase("Ešte raz, pomaly"); await say(my, lText(), "es", {rate: S.rate * 0.8});
+    }
+    lPhase(yourTurn(), true);
+  } catch (e) { if (e !== STOP) console.error(e); }
+}
+function evaluateLesson(){
+  const toks = lToks(), words = toks.filter(t => t.n);
+  const H = norm(heard).split(" ").filter(Boolean);
+  if (!H.length) { lPhase("Nič som nepočul. Ťukni a skús to znova, bližšie k telefónu.", true); return; }
+  const st = align(words.map(t => t.n), H);
+  words.forEach((t, i) => { t.s = st[i]; });
+  const ok = st.filter(x => x === "ok").length, close = st.filter(x => x === "close").length;
+  const score = words.length ? Math.round(100 * (ok + 0.6 * close) / words.length) : 0;
+  const verdict = score >= 90 ? "Výborne, rozumel by ti každý." : score >= 70 ? "Dobre. Dolaď vyznačené slová." : score >= 40 ? "Ešte raz. Vypočuj si to a povedz pomalšie." : "Nerozumel som. Skús to pomaly a zreteľne.";
+  lEval = {toks, score, verdict, heard: heard.trim()};
+  const wasHidden = quiz() && !revealed;
+  revealed = true;
+  P.pron[lKey()] = Math.max(P.pron[lKey()] || 0, score);
+  tick(); touch(); renderLesson();
+  lPhase(score >= 90 ? "Ťukni na Ďalej, keď budeš chcieť pokračovať" : "Skús to znova, alebo ťukni na Ďalej");
+  if (wasHidden) { stopAll(); const my = token; say(my, lText(), "es").catch(() => {}); }
+}
+function renderMic(){
+  const b = $("lMic"); b.classList.toggle("on", pState !== "idle");
+  const idle = quiz() && !revealed ? "Odpovedať" : (lEval ? "Skúsiť znova" : "Zopakovať");
+  b.innerHTML = ICON_MIC + ({starting: "Zapínam…", listening: "Hotovo", finishing: "Vyhodnocujem…"}[pState] || idle);
+}
+const NO_DICT = IN_CLAUDE
+  ? "Nahrávanie hlasu tu Claude appke nesprístupnil. Na počítači funguje v Chrome alebo v desktopovej aplikácii Claude, na mobile vo verzii appky z GitHubu. Lekciu môžeš robiť aj bez hodnotenia: vypočuj si frázu, zopakuj ju nahlas a ťukni na Ďalej."
+  : "Tento prehliadač nevie nahrávať hlas. Otvor appku v Chrome. Lekciu môžeš robiť aj bez hodnotenia: vypočuj si frázu, zopakuj ju nahlas a ťukni na Ďalej.";
+const P_MSG = {
+  not_granted: IN_CLAUDE ? "Mikrofón nie je povolený. Povoľ ho v menu Povolenia tejto stránky a skús znova."
+    : "Mikrofón je pre túto appku zablokovaný. Povoľ ho: dlho podrž ikonu appky → Informácie o aplikácii → Povolenia → Mikrofón, alebo v Chrome ťukni na ikonu vľavo od adresy → Povolenia → Mikrofón.",
+  network: "Rozpoznávanie reči potrebuje internet. Skontroluj pripojenie a skús znova.",
+  no_mic: "Mikrofón sa nepodarilo zapnúť. Možno ho práve používa iná appka. Zavri ju a skús znova.",
+  rate_limited: "Rozpoznávanie je chvíľu zaneprázdnené. Skús to o pár sekúnd.",
+  upstream_error: "Mikrofón alebo rozpoznávanie reči zlyhalo. Skús to znova."
+};
+function webSpeech(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return null;
+  let rec = null, state = "idle";
+  const hs = {p: [], f: [], s: []};
+  const emit = (st, reason) => { state = st; hs.s.forEach(h => h(reason ? {state: st, reason} : {state: st})); };
+  const ERR = {"not-allowed": "not_granted", "service-not-allowed": "not_granted", "no-speech": "stopped", "aborted": "stopped", "audio-capture": "no_mic", "network": "network", "language-not-supported": "unavailable"};
+  return {
+    start(){
+      if (rec) return Promise.resolve();
+      let reason = "stopped";
+      try {
+        rec = new SR(); rec.lang = LANG.speech || "es-ES"; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+        rec.onstart = () => emit("listening");
+        rec.onresult = e => { let interim = ""; for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i], t = r[0] ? r[0].transcript : ""; if (r.isFinal) hs.f.forEach(h => h({text: t})); else interim += t; } hs.p.forEach(h => h({text: interim})); };
+        rec.onerror = e => { reason = ERR[e.error] || "upstream_error"; };
+        rec.onend = () => { rec = null; emit("idle", reason); };
+        emit("starting"); rec.start();
+      } catch (e) { rec = null; emit("idle", "upstream_error"); }
+      return Promise.resolve();
+    },
+    stop(){ if (rec) { if (state === "listening") emit("finishing"); try { rec.stop(); } catch(e){} } return Promise.resolve(); },
+    active(){ return state !== "idle"; },
+    onPartial(h){ hs.p.push(h); return () => {}; }, onFinal(h){ hs.f.push(h); return () => {}; }, onState(h){ hs.s.push(h); return () => {}; }
+  };
+}
+function dictOff(msg){ dict = null; dictChecked = true; lNote(msg); renderLesson(); }
+(async () => {
+  try {
+    let d = null;
+    if (window.claude && window.claude.use) { try { d = await window.claude.use("dictation"); } catch(e){ d = null; } }
+    if (!d && !IN_CLAUDE) d = webSpeech();
+    if (!d) { dictOff(NO_DICT); return; }
+    dict = d; dictChecked = true; lNote(""); renderLesson();
+    const finish = () => { if (listening()) dict.stop().catch(() => {}); };
+    d.onPartial(({text}) => { if (!attempting) return; $("lLive").textContent = (heard + " " + text).trim(); clearTimeout(pTimer); if (text) pTimer = setTimeout(finish, 2500); });
+    d.onFinal(({text}) => { if (!attempting) return; heard += text + " "; $("lLive").textContent = heard.trim(); clearTimeout(pTimer); pTimer = setTimeout(finish, 1200); });
+    d.onState(({state, reason}) => {
+      pState = state; renderMic();
+      if (state !== "idle") return;
+      clearTimeout(pTimer); clearTimeout(pHard); $("lLive").textContent = "";
+      if (!attempting) return;
+      attempting = false;
+      if (reason === "dismissed") { lPhase(yourTurn(), true); return; }
+      if (reason === "unavailable") { dictOff(IN_CLAUDE ? NO_DICT : (LT.noRecog || "Telefón teraz nevie rozpoznávať španielčinu.") + " Skontroluj, či máš zapnutú appku Google (Nastavenia → Aplikácie → Google), a appku otvor znova."); return; }
+      if (P_MSG[reason]) { lNote(P_MSG[reason]); lPhase(yourTurn(), true); return; }
+      if (reason && !["stopped", "viewer_stopped", "hidden", "time_limit"].includes(reason)) { lNote(P_MSG.upstream_error); return; }
+      evaluateLesson();
+    });
+  } catch (e) { dictOff(NO_DICT); }
+})();
+$("lMic").onclick = () => {
+  if (!dict) return;
+  if (listening()) { dict.stop().catch(() => {}); return; }
+  if (synth) try { synth.cancel(); } catch(e){}
+  dict.start({language: TL}).catch(() => {});
+  stopAll(); if (dPlaying) stopDialog();
+  attempting = true; heard = ""; lEval = null; lNote(""); $("lLive").textContent = ""; tick();
+  renderLesson(); lPhase("Počúvam ťa…", true);
+  clearTimeout(pHard); pHard = setTimeout(() => { if (listening()) dict.stop().catch(() => {}); }, 15000);
+};
+$("lHear").onclick = () => { tick(); playPrompt(); };
+$("lReveal").onclick = () => { revealed = true; renderLesson(); tick(); touch(); stopAll(); const my = token; say(my, lText(), "es").catch(() => {}); lPhase("Porovnaj so svojou odpoveďou a zopakuj to"); };
+$("lNext").onclick = () => {
+  if (listening()) { attempting = false; dict.stop().catch(() => {}); }
+  tick();
+  if (lStep === "phrase" && S.withSentence) { lStep = "sentence"; lEval = null; revealed = false; heard = ""; }
+  else {
+    const s = it(lItem.id); P.items[lItem.id] = {b: s.b, h: (s.h || 0) + 1, t: s.t || 0}; touch();
+    const L = LESSON[curN]; let i = L.items.indexOf(lItem) + 1;
+    if (i >= L.items.length) { i = 0; lNote("Prešiel si celú lekciu. Ideme znova od začiatku, alebo si otvor kartičky."); } else if (dict || !dictChecked) lNote("");
+    S.pos[curN] = i; saveSettings(); lItem = L.items[i]; lStep = "phrase"; lEval = null; revealed = false; heard = "";
+  }
+  renderLesson(); playPrompt();
+};
+$("restartLesson").onclick = () => { if (listening()) return; S.pos[curN] = 0; saveSettings(); loadPos(); renderLesson(); lPhase(startText()); };
+function setMode(m){ if (listening()) return; S.mode = m; saveSettings(); renderMode(); stopAll(); lEval = null; revealed = false; heard = ""; renderLesson(); lPhase(startText()); }
+function renderMode(){ $("mListen").setAttribute("aria-pressed", S.mode === "listen"); $("mQuiz").setAttribute("aria-pressed", S.mode === "quiz"); }
+$("mListen").onclick = () => setMode("listen");
+$("mQuiz").onclick = () => setMode("quiz");
+$("withSentence").onchange = e => { S.withSentence = e.target.checked; saveSettings(); if (!S.withSentence && lStep === "sentence" && !listening()) { lStep = "phrase"; lEval = null; revealed = false; lPhase(startText()); } renderLesson(); };
+const rateEl = $("rate");
+function renderRate(){ rateEl.value = S.rate; $("rateVal").textContent = Math.round(S.rate * 100) + " %"; }
+rateEl.oninput = () => { S.rate = +rateEl.value; renderRate(); saveSettings(); };
+$("readSk").onchange = e => { S.readSk = e.target.checked; saveSettings(); };
+$("esVoice").onchange = e => { S.esVoice = e.target.value; saveSettings(); };
+$("testVoice").onclick = () => sayOnce(LT.testPhrase || "Hola, ¿qué tal? Vamos a aprender español.", "es");
+
+/* ---------- Gap-fill exercises ---------- */
+let xItem = null, xDone = false;
+const xList = () => (LESSON[curN].ex || []).flatMap(b => b.items.map(it => Object.assign({ins: b.ins}, it)));
+const xFold = s => { s = s.normalize("NFC").replace(/\u0301/g, ""); const f = LANG.fold || {}; for (const k in f) s = s.split(k).join(f[k]); return s; };
+const xNorm = s => xFold(s.toLowerCase()).replace(/[¿?¡!.,;:«»"“”]/g, " ").replace(/\s+/g, " ").trim();
+const xBare = s => xNorm(s).normalize("NFD").replace(/[̀-ͯ]/g, "");
+if (!S.xpos || typeof S.xpos !== "object") S.xpos = {};
+function xLoad(){ const L = xList(); if (!L.length) { xItem = null; return; } let i = +S.xpos[curN] || 0; if (i >= L.length) i = 0; xItem = L[i]; xDone = false; }
+function xAns(ans){
+  const pre = xItem.es.split("___")[0];
+  return /^(?:.*[.?!…]\s+)?[¿¡—«"\s]*$/.test(pre) ? ans.charAt(0).toUpperCase() + ans.slice(1) : ans;
+}
+function xFilled(ans){ return xItem.es.replace("___", xAns(ans)); }
+function xRender(state){
+  const L = xList();
+  if (!xItem) { $("xSent").textContent = "Táto lekcia zatiaľ nemá cvičenia."; return; }
+  const idx = L.findIndex(x => x.id === xItem.id);
+  $("xIns").innerHTML = fmt(xItem.ins);
+  $("xCount").textContent = (idx + 1) + " / " + L.length;
+  const parts = xItem.es.split("___");
+  const blank = state ? '<span class="blank ' + (state.ok ? "ok" : "bad") + '">' + esc(xAns(xItem.ans[0])) + '</span>' : '<span class="blank">…</span>';
+  $("xSent").innerHTML = esc(parts[0]) + blank + esc(parts[1] || "");
+  $("xHint").textContent = xItem.hint;
+  $("xRes").hidden = !state;
+  if (state) {
+    $("xMark").textContent = state.ok ? (state.accent ? "Takmer" : "Správne") : (state.shown ? "Odpoveď" : "Nie celkom");
+    $("xVerdict").textContent = state.ok ? (state.accent ? (LT.nearMiss || "Pozor na dĺžne a ñ: ") + xItem.ans[0] : "Výborne.") : (state.shown ? "Zapamätaj si ju a skús to pri ďalšom kole." : "Ty: „" + state.given + "“. Správne je " + xItem.ans[0] + ".");
+    $("xFull").textContent = xFilled(xItem.ans[0]); $("xSk").textContent = xItem.sk;
+  }
+  $("xIn").disabled = !!state; $("xCheck").disabled = !!state;
+  if (!state) $("xIn").value = "";
+  const done = L.filter(x => P.ex[x.id] === 1).length;
+  $("xStat").textContent = "V tejto lekcii máš správne " + done + " z " + L.length + " cvičení.";
+}
+function xCheck(){
+  if (!xItem || xDone) return;
+  const given = $("xIn").value.trim();
+  if (!given) { $("xIn").focus(); return; }
+  const exact = xItem.ans.some(a => xNorm(a) === xNorm(given));
+  const bare = !exact && xItem.ans.some(a => xBare(a) === xBare(given));
+  const ok = exact || bare;
+  P.ex[xItem.id] = Math.max(P.ex[xItem.id] || 0, ok ? 1 : 0); tick(); touch();
+  xDone = true; xRender({ok, accent: bare, given});
+  $("xIn").blur(); sayOnce(xFilled(xItem.ans[0]), "es");
+}
+$("xForm").addEventListener("submit", e => { e.preventDefault(); xCheck(); });
+$("xShow").onclick = () => { if (!xItem || xDone) return; if (P.ex[xItem.id] == null) { P.ex[xItem.id] = 0; touch(); } xDone = true; xRender({ok: false, shown: true}); sayOnce(xFilled(xItem.ans[0]), "es"); };
+$("xSay").onclick = () => { if (!xItem) return; sayOnce(xDone ? xFilled(xItem.ans[0]) : xItem.es.replace("___", ""), "es"); };
+$("xNext").onclick = () => {
+  const L = xList(); if (!L.length) return;
+  let i = L.findIndex(x => x.id === xItem.id) + 1;
+  if (i >= L.length) i = 0;
+  S.xpos[curN] = i; saveSettings(); xItem = L[i]; xDone = false; stopAll(); xRender();
+  if (i === 0) { const done = L.filter(x => P.ex[x.id] === 1).length; $("xStat").textContent = "Kolo hotové: správne " + done + " z " + L.length + ". Ideme znova od začiatku."; }
+  else try { $("xIn").focus({preventScroll: true}); } catch(e){}
+};
+$("xKeys").addEventListener("pointerdown", e => { if (e.target.closest("button")) e.preventDefault(); });
+$("xKeys").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b || xDone) return;
+  const inp = $("xIn"); const st = inp.selectionStart ?? inp.value.length, en = inp.selectionEnd ?? inp.value.length;
+  const k = b.dataset.k;
+  if (k === "bs") { if (st !== en) inp.setRangeText("", st, en, "end"); else if (st > 0) inp.setRangeText("", st - 1, st, "end"); }
+  else inp.setRangeText(k === "sp" ? " " : b.textContent, st, en, "end");
+  inp.focus();
+});
+const FULLKEYS = !!LANG.fullKeys;
+function renderKeys(){
+  const box = $("xKeys"), rows = LANG.keys || [["á", "é", "í", "ó", "ú", "ñ", "ü"]];
+  const btn = c => '<button type="button">' + esc(c) + '</button>';
+  if (!FULLKEYS) { box.className = "keys"; box.innerHTML = rows.flat().map(btn).join(""); return; }
+  const onScreen = S.kbd !== "phone";
+  box.className = "keys full"; box.hidden = !onScreen;
+  box.innerHTML = rows.map(r => '<div class="krow">' + r.map(btn).join("") + '</div>').join("") +
+    '<div class="krow"><button type="button" class="wide" data-k="sp">medzera</button><button type="button" data-k="bs" aria-label="Zmazať">⌫</button></div>';
+  $("xIn").setAttribute("inputmode", onScreen ? "none" : "text");
+  $("kbdSwitch").hidden = false;
+  $("kbdSwitch").textContent = onScreen ? (LT.kbdPhone || "Písať klávesnicou telefónu") : (LT.kbdScreen || "Písať klávesnicou na obrazovke");
+}
+
+$("kbdSwitch").onclick = () => { S.kbd = S.kbd === "phone" ? "screen" : "phone"; saveSettings(); renderKeys(); if (S.kbd === "phone") $("xIn").focus(); };
+
+/* ---------- Dialogue ---------- */
+let dPlaying = false, dIdx = -1, dRevealed = new Set();
+function renderScript(){
+  const L = LESSON[curN]; if (!L || !L.dialog) return;
+  $("dTitle").textContent = L.dialog.title;
+  const el = $("dScript"); el.innerHTML = "";
+  L.dialog.lines.forEach((l, i) => {
+    const row = document.createElement("div"); row.className = "line" + (l[0] === "you" ? " you" : "") + (i === dIdx ? " now" : "");
+    const who = document.createElement("div"); who.className = "who"; who.textContent = l[0] === "you" ? "Ty" : L.dialog.them;
+    const txt = document.createElement("div"); txt.style.minWidth = "0";
+    const l1 = document.createElement("div"); l1.className = "l1";
+    const masked = S.roleplay && l[0] === "you" && dPlaying && !dRevealed.has(i);
+    l1.textContent = masked ? "tvoja replika…" : l[1]; if (masked) l1.classList.add("masked");
+    const l2 = document.createElement("div"); l2.className = "l2"; l2.textContent = l[2];
+    txt.append(l1, l2); row.append(who, txt); el.append(row);
+  });
+  $("dPlay").innerHTML = dPlaying ? ICON_PAUSE + "Zastaviť" : ICON_PLAY + (S.roleplay ? "Hrať rolu" : "Prehrať dialóg");
+}
+async function runDialog(my){
+  const pms = 2300;
+  try {
+    const lines = LESSON[curN].dialog.lines;
+    const vThem = otherEsVoice(); const themPitch = vThem ? 1 : 0.8;
+    for (let i = 0; i < lines.length; i++) {
+      const [who, es, sk] = lines[i]; dIdx = i; renderScript();
+      const row = $("dScript").children[i]; if (row && row.scrollIntoView) row.scrollIntoView({block: "nearest", behavior: "smooth"});
+      if (who === "you" && S.roleplay) {
+        if (skVoice || S.readSk) await say(my, sk, "sk");
+        await pause(my, pms * 1.3 + es.length * 60);
+        dRevealed.add(i); renderScript();
+        await say(my, es, "es");
+        await pause(my, pms * 0.8 + es.length * 30);
+      } else {
+        await say(my, es, "es", who === "you" ? {} : {voice: vThem || undefined, pitch: themPitch});
+        if (S.dSk) { await pause(my, 300); await say(my, sk, "sk"); }
+        await pause(my, 700);
+      }
+    }
+    tick(); touch();
+    dPlaying = false; dIdx = -1; renderScript(); releaseScreen();
+  } catch(e){ if (e !== STOP) console.error(e); }
+}
+function startDialog(){ if (listening()) { attempting = false; dict.stop().catch(() => {}); } stopAll(); dPlaying = true; dIdx = -1; dRevealed = new Set(); lastAct = Date.now(); holdScreen(); renderScript(); runDialog(token); }
+function stopDialog(){ if (!dPlaying) return; dPlaying = false; stopAll(); tick(); touch(); dIdx = -1; renderScript(); releaseScreen(); }
+$("dPlay").onclick = () => dPlaying ? stopDialog() : startDialog();
+$("roleplay").onchange = e => { S.roleplay = e.target.checked; saveSettings(); renderScript(); };
+$("dSk").onchange = e => { S.dSk = e.target.checked; saveSettings(); };
+function stopEverything(){ if (listening()) { attempting = false; dict.stop().catch(() => {}); } if (dPlaying) stopDialog(); stopAll(); }
+
+/* ---------- Cards ---------- */
+let card = null;
+function cardPool(){
+  const sel = S.cardSel;
+  if (/^\d+$/.test(sel) && ready(+sel)) return LESSON[+sel].items;
+  if (sel === "all") return COURSE.lessons.map(l => l.n).filter(ready).flatMap(n => LESSON[n].items);
+  const lv = COURSE.levels.find(l => l.id === sel) || COURSE.levels[0];
+  return lv.lessons.filter(ready).flatMap(n => LESSON[n].items);
+}
+function renderCardSelect(){
+  const sel = $("cSel"); sel.innerHTML = "";
+  const allN = COURSE.lessons.map(l => l.n).filter(ready);
+  if (allN.length) { const o = document.createElement("option"); o.value = "all"; o.textContent = "Všetky lekcie (" + allN.reduce((a, n) => a + LESSON[n].items.length, 0) + " slov)"; sel.append(o); }
+  COURSE.levels.forEach(lv => {
+    const rs = lv.lessons.filter(ready); if (!rs.length) return;
+    const g = document.createElement("optgroup"); g.label = lv.id + " · " + lv.name;
+    const all = document.createElement("option"); all.value = lv.id; all.textContent = lv.id + " – celá úroveň (" + rs.reduce((a, n) => a + LESSON[n].items.length, 0) + " slov)"; g.append(all);
+    rs.forEach(n => { const o = document.createElement("option"); o.value = String(n); o.textContent = "Lekcia " + n + " · " + LESSON[n].title; g.append(o); });
+    sel.append(g);
+  });
+  if (![...sel.options].some(o => o.value === S.cardSel)) S.cardSel = sel.options[0] ? sel.options[0].value : "A1";
+  sel.value = S.cardSel;
+}
+$("cSel").onchange = e => { S.cardSel = e.target.value; saveSettings(); card = null; nextCard(); };
+function nextCard(){
+  const p = cardPool().slice().sort((a, b) => (it(a.id).b - it(b.id).b) || (it(a.id).t - it(b.id).t));
+  if (!p.length) return;
+  const head = p.slice(0, Math.min(6, p.length)).filter(x => !card || x.id !== card.id);
+  card = head[Math.floor(Math.random() * head.length)] || p[0];
+  renderCard(false);
+}
+function renderCard(open){
+  if (!card) return;
+  const s = it(card.id), fwd = S.dir === "es";
+  $("cTopic").textContent = "Lekcia " + card.n + " · " + card.group;
+  $("cDots").innerHTML = [0, 1, 2, 3].map(i => '<i class="' + (i < s.b ? "on" : "") + '"></i>').join("");
+  $("cFront").textContent = fwd ? card.es : card.sk;
+  $("cAns").textContent = fwd ? card.sk : card.es;
+  $("cEx").textContent = card.ex; $("cExSk").textContent = card.exSk;
+  $("cBack").hidden = !open; $("cRate").hidden = !open; $("cReveal").hidden = open;
+  $("dirSeg").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.d === S.dir));
+  const pool = cardPool(); const known = pool.filter(x => it(x.id).b >= 3).length;
+  $("cStat").textContent = "V tomto výbere vieš " + known + " z " + pool.length + " slov.";
+}
+const hearCard = () => { if (card) sayOnce(card.es, "es"); };
+$("cHear").onclick = hearCard;
+$("cReveal").onclick = () => { renderCard(true); if (S.dir === "sk") hearCard(); };
+function rateCard(ok){
+  const s = it(card.id);
+  P.items[card.id] = {b: ok ? Math.min(4, s.b + 1) : Math.max(0, s.b - 2), h: s.h || 0, t: Date.now()};
+  tick(); touch(); nextCard(); if (S.dir === "es") hearCard();
+}
+$("cYes").onclick = () => rateCard(true);
+$("cNo").onclick = () => rateCard(false);
+$("dirSeg").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.dir = b.dataset.d; saveSettings(); renderCard(false); };
+
+/* ---------- Grammar reference ---------- */
+let GRAM = null, VERBS = null, gReady = null;
+function loadGrammar(){
+  if (!gReady) gReady = Promise.all([fetch(DATA + "grammar.json", {cache: "no-cache"}).then(r => r.json()), fetch(DATA + "verbs.json", {cache: "no-cache"}).then(r => r.json())])
+    .then(([g, v]) => { GRAM = g; VERBS = v; if (v.persons) PERSONS = v.persons; if (v.irrTables) IRR_TABLES = v.irrTables; if (v.impLabels) IMP_LABELS = v.impLabels; }).catch(e => { gReady = null; throw e; });
+  return gReady;
+}
+let PERSONS = ["yo", "tú", "él, ella, usted", "nosotros", "vosotros", "ellos, ustedes"];
+const stemOf = m => m.stem != null ? m.stem : m.inf.slice(0, -2);
+const plain = s => String(s).replace(/\*/g, "");
+const sayBtn = (html, cls, text) => '<button class="form' + (cls ? " " + cls : "") + '" data-f="' + esc(text != null ? text : plain(html)) + '">' + html + '</button>';
+function renderGrammar(){
+  $("gTabs").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.g === (S.gTab || "rules")));
+  ["rules", "conj", "irr"].forEach(t => { $({rules: "gRules", conj: "gConj", irr: "gIrr"}[t]).hidden = t !== (S.gTab || "rules"); });
+  if (!GRAM) {
+    $("gChapters").innerHTML = '<p class="loading">Načítavam gramatiku…</p>';
+    loadGrammar().then(renderGrammar).catch(() => { $("gChapters").innerHTML = '<p class="warn">Gramatiku sa nepodarilo načítať. Skontroluj pripojenie a otvor ju znova.</p>'; });
+    return;
+  }
+  const t = S.gTab || "rules";
+  if (t === "rules") renderRules();
+  if (t === "conj") renderConj();
+  if (t === "irr") renderIrr();
+}
+function sectionHTML(s){
+  let h = '<div class="gsec"><div class="gsec-h"><h3>' + fmt(s.t) + '</h3><span class="lvl">' + s.lv + '</span></div>';
+  h += (s.p || []).map(x => '<p>' + fmt(x) + '</p>').join("");
+  if (s.tab) h += '<div class="scroll"><table class="gtable"><thead><tr>' + s.tab.h.map(x => '<th>' + fmt(x) + '</th>').join("") + '</tr></thead><tbody>' +
+    s.tab.r.map(r => '<tr>' + r.map(c => '<td>' + fmt(c) + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+  return h + '</div>';
+}
+function renderRules(){
+  const lv = S.gLevel || "all";
+  $("gLevels").innerHTML = ["all", "A1", "A2", "B1", "B2"].map(x => '<button class="chip" data-l="' + x + '" aria-pressed="' + (x === lv) + '">' + (x === "all" ? "Všetky úrovne" : "do " + x) + '</button>').join("");
+  const order = {A1: 1, A2: 2, B1: 3, B2: 4};
+  const q = norm($("gSearch").value || "");
+  const out = GRAM.chapters.map((c, ci) => {
+    const secs = c.s.filter(s => (lv === "all" || order[s.lv] <= order[lv]) && (!q || norm(c.t + " " + s.t + " " + (s.p || []).join(" ") + " " + (s.tab ? s.tab.h.concat(...s.tab.r).join(" ") : "")).includes(q)));
+    if (!secs.length) return "";
+    return '<details class="chap"' + (q || S.gOpen === ci ? " open" : "") + ' data-c="' + ci + '"><summary><span>' + esc(c.t) + '</span><span class="pkey">' + secs.length + '</span></summary><div class="chap-in">' + secs.map(sectionHTML).join("") + '</div></details>';
+  }).join("");
+  $("gChapters").innerHTML = out || '<p class="hint">Nič som nenašiel. Skús iné slovo.</p>';
+}
+$("gSearch").addEventListener("input", () => renderRules());
+$("gLevels").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return; S.gLevel = b.dataset.l; saveSettings(); renderRules(); };
+$("gChapters").addEventListener("toggle", e => { const d = e.target; if (d.matches && d.matches("details.chap") && d.open) { S.gOpen = +d.dataset.c; saveSettings(); } }, true);
+$("gTabs").onclick = e => { const b = e.target.closest("button"); if (!b) return; S.gTab = b.dataset.g; saveSettings(); renderGrammar(); window.scrollTo(0, $("gTabs").offsetTop - 70); };
+
+function markEnding(form, stem){
+  const words = form.split(" "), last = words.pop();
+  const w = last.startsWith(stem) ? esc(stem) + "<b>" + esc(last.slice(stem.length)) + "</b>" : "<b>" + esc(last) + "</b>";
+  return (words.length ? esc(words.join(" ")) + " " : "") + w;
+}
+function renderConj(){
+  const M = VERBS.models;
+  const head = '<tr><th></th>' + M.map(m => '<th>' + esc(m.inf) + '<br><span class="val" style="text-transform:none;letter-spacing:0;font-weight:500">' + esc(m.sk) + '</span></th>').join("") + '</tr>';
+  const cards = VERBS.tenses.map(t => '<div class="gsec"><div class="gsec-h"><h3>' + esc(t.name) + '</h3><span class="lvl">' + t.level + '</span></div><p>' + fmt(t.use) + '</p><div class="scroll"><table class="gtable ctable"><thead>' + head + '</thead><tbody>' +
+    (t.rows || PERSONS).map((p, i) => '<tr><td class="per">' + p + '</td>' + M.map(m => '<td>' + (m.t[t.k] && m.t[t.k][i] ? '<button class="form" data-f="' + esc(m.t[t.k][i]) + '">' + markEnding(m.t[t.k][i], (m.stems && m.stems[t.k]) || stemOf(m)) + '</button>' : '—') + '</td>').join("") + '</tr>').join("") +
+    '</tbody></table></div></div>');
+  const impRows = [["tú", 0], ["usted", 1], ["nosotros", 2], ["vosotros", 3], ["ustedes", 4]];
+  if (M[0].imp) cards.push('<div class="gsec"><div class="gsec-h"><h3>Rozkazovací spôsob (imperativo)</h3><span class="lvl">A2</span></div><p>Kladný a záporný rozkaz. Záporný sa tvorí z prítomného subjunktívu.</p><div class="scroll"><table class="gtable ctable"><thead>' + head + '</thead><tbody>' +
+    impRows.map(([p, i]) => '<tr><td class="per">' + p + '</td>' + M.map(m => '<td><button class="form" data-f="' + esc(m.imp.aff[i]) + '">' + markEnding(m.imp.aff[i], stemOf(m)) + '</button><br><span class="val">' + esc(m.imp.neg[i]) + '</span></td>').join("") + '</tr>').join("") +
+    '</tbody></table></div></div>');
+  if (M[0].part) cards.push('<div class="gsec"><div class="gsec-h"><h3>Príčastie a gerundium</h3><span class="lvl">A1</span></div><div class="scroll"><table class="gtable ctable"><thead>' + head + '</thead><tbody>' +
+    '<tr><td class="per">príčastie</td>' + M.map(m => '<td>' + sayBtn(markEnding(m.part, stemOf(m)), "", m.part) + '</td>').join("") + '</tr>' +
+    '<tr><td class="per">gerundium</td>' + M.map(m => '<td>' + sayBtn(markEnding(m.ger, stemOf(m)), "", m.ger) + '</td>').join("") + '</tr></tbody></table></div></div>');
+  $("gConjList").innerHTML = cards.join("");
+}
+function irrTable(v, cols, rows){
+  cols = cols.filter(([k]) => v[k]);
+  if (!cols.length) return "";
+  return '<div class="scroll"><table class="gtable ctable"><thead><tr><th></th>' + cols.map(c => '<th>' + c[1] + '</th>').join("") + '</tr></thead><tbody>' +
+    (rows || PERSONS).map((p, i) => '<tr><td class="per">' + p + '</td>' + cols.map(([k]) => '<td>' + (v[k][i] ? sayBtn(esc(v[k][i]), v[k + "X"] && v[k + "X"][i] ? "irr" : "", v[k][i]) : '—') + '</td>').join("") + '</tr>').join("") + '</tbody></table></div>';
+}
+let IRR_TABLES = [{cols: [["pres", "Prítomný čas"], ["indef", "Indefinido"], ["impf", "Imperfecto"]]}, {cols: [["fut", "Futuro"], ["cond", "Condicional"]]}, {cols: [["spres", "Subj. prítomný"], ["simpf", "Subj. imperfecto"]]}];
+let IMP_LABELS = ["tú", "usted", "vosotros"];
+function renderIrr(){
+  $("gGroups").innerHTML = '<thead><tr><th>Skupina</th><th>Kde</th><th>Príklady</th></tr></thead><tbody>' + GRAM.groups.map(g => '<tr><td>' + fmt(g[0]) + '</td><td>' + fmt(g[1]) + '</td><td>' + fmt(g[2]) + '</td></tr>').join("") + '</tbody>';
+  const q = norm($("gVerbSearch").value || "");
+  const list = VERBS.irregular.filter(v => !q || norm(v.inf + " " + v.sk).includes(q));
+  $("gVerbs").innerHTML = list.map(v => '<details class="chap verb"><summary><span><b class="vinf">' + esc(v.inf) + '</b> <span class="val">' + esc(v.sk) + '</span></span><span class="tag">' + esc(v.grp) + '</span></summary><div class="chap-in">' +
+    IRR_TABLES.map(tb => irrTable(v, tb.cols, tb.rows)).join("") +
+    '<div class="scroll"><table class="gtable ctable"><tbody>' +
+    (v.imp ? '<tr><td class="per">rozkaz</td><td>' + IMP_LABELS.map((p, i) => v.imp[i] ? '<span class="val">' + p + ':</span> ' + sayBtn(esc(v.imp[i]), v.impX && v.impX[i] ? "irr" : "", v.imp[i]) : "").filter(Boolean).join(" &nbsp; ") + '</td></tr>' : "") +
+    (v.part ? '<tr><td class="per">príčastie</td><td>' + sayBtn(esc(v.part), v.partX ? "irr" : "", v.part) + '</td></tr>' : "") +
+    (v.ger ? '<tr><td class="per">gerundium</td><td>' + sayBtn(esc(v.ger), v.gerX ? "irr" : "", v.ger) + '</td></tr>' : "") +
+    (v.note ? '<tr><td class="per">pozor</td><td>' + fmt(v.note) + '</td></tr>' : "") +
+    '</tbody></table></div></div></details>').join("") || '<p class="hint">Toto sloveso v zozname nie je.</p>';
+}
+$("gVerbSearch").addEventListener("input", () => renderIrr());
+$("v-gramatika").addEventListener("click", e => { const b = e.target.closest("button.form"); if (!b) return; const f = b.dataset.f; if (f && f !== "—") sayOnce(f.replace(/\s*\(.*\)/, ""), "es", {rate: S.rate * 0.85}); });
+
+/* ---------- Progress ---------- */
+function streak(){
+  const set = new Set(P.days); let n = 0; const d = new Date();
+  if (!set.has(today())) d.setDate(d.getDate() - 1);
+  while (set.has(dayKey(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function renderProgress(){
+  const all = Object.values(ITEMS);
+  $("stKnown").textContent = all.filter(x => it(x.id).b >= 3).length;
+  $("stKnownOf").textContent = "z " + all.length + " slov vieš";
+  $("stStreak").textContent = streak(); $("stMins").textContent = Math.round(P.mins);
+  $("stPron").textContent = Object.values(P.pron).filter(v => v >= 90).length;
+  $("progLevels").innerHTML = COURSE.levels.map(lv => {
+    const rs = lv.lessons.filter(ready);
+    if (!rs.length) return '<div class="panel"><h3>' + lv.id + ' · ' + esc(lv.name) + '</h3><p class="hint" style="margin-top:4px">Lekcie ' + lv.lessons[0] + '–' + lv.lessons[lv.lessons.length - 1] + ' pripravujem.</p></div>';
+    return '<div class="panel view"><h3>' + lv.id + ' · ' + esc(lv.name) + '</h3>' + rs.map(n => { const st = lessonStats(n);
+      return '<a class="prow" href="#lekcia-' + n + '"><span class="tp"><b>' + n + '. ' + esc(LESSON[n].title) + '</b><span>' + st.known + ' vieš · ' + (st.known + st.practiced) + '/' + st.total + '</span></span><span class="bar">' + barHTML(st) + '</span></a>'; }).join("") + '</div>';
+  }).join("");
+}
+let armed = false, armT = null;
+$("resetBtn").onclick = () => {
+  const b = $("resetBtn");
+  if (!armed) { armed = true; b.classList.add("armed"); b.textContent = "Naozaj vymazať? Ťukni znova"; armT = setTimeout(() => { armed = false; b.classList.remove("armed"); b.textContent = "Vymazať pokrok"; }, 4000); return; }
+  clearTimeout(armT); armed = false; b.classList.remove("armed"); b.textContent = "Pokrok vymazaný";
+  P = normalizeP(null); P.updated = Date.now(); LS.set(STORE + ".progress", P); scheduleSync(); refresh();
+  setTimeout(() => { b.textContent = "Vymazať pokrok"; }, 2500);
+};
+function bMsg(t){ $("bMsg").textContent = t; }
+$("bCopy").onclick = () => {
+  const text = JSON.stringify(P);
+  const fallback = () => { $("bText").value = text; $("bText").select(); bMsg("Zálohu som označil v poli. Skopíruj ju podržaním prsta."); };
+  try { navigator.clipboard.writeText(text).then(() => bMsg("Záloha je skopírovaná. Vlož ju napríklad do poznámok."), fallback); } catch(e){ fallback(); }
+};
+$("bRestore").onclick = () => {
+  let data; try { data = JSON.parse($("bText").value); } catch(e){ data = null; }
+  if (!data || typeof data !== "object" || !data.items) { bMsg("Toto nie je platná záloha. Vlož celý text, ktorý si skopíroval."); return; }
+  P = mergeP(P, data); migrate(); LS.set(STORE + ".progress", P); scheduleSync(); refresh(); $("bText").value = ""; bMsg("Pokrok je obnovený.");
+};
+
+/* ---------- Routing ---------- */
+const VIEWS = ["kurz", "lekcia", "karticky", "gramatika", "pokrok"];
+function route(){
+  if (!COURSE) return;
+  const h = location.hash.slice(1);
+  let v = "kurz", n = null;
+  const m = /^lekcia-(\d+)$/.exec(h);
+  if (m && LESSON[+m[1]]) { v = "lekcia"; n = +m[1]; } else if (VIEWS.includes(h) && h !== "lekcia") v = h;
+  if (v !== "lekcia") stopEverything();
+  VIEWS.forEach(x => { $("v-" + x).hidden = x !== v; });
+  const tab = v === "lekcia" ? "kurz" : v;
+  document.querySelectorAll("nav.tabs a").forEach(a => { if (a.dataset.r === tab) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  if (v === "kurz") renderCourse();
+  if (v === "lekcia") openLesson(n);
+  if (v === "karticky") { renderCardSelect(); if (!card || !cardPool().includes(card)) nextCard(); else renderCard(!$("cBack").hidden); }
+  if (v === "gramatika") renderGrammar();
+  if (v === "pokrok") renderProgress();
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+function refresh(){
+  if (!COURSE) return;
+  const h = location.hash.slice(1);
+  if (h === "pokrok") renderProgress(); else if (h === "karticky") renderCard(!$("cBack").hidden); else if (/^lekcia-/.test(h)) { renderLessonBar(); if (!$("lsOverview").hidden) renderGroups(); } else renderCourse();
+}
+
+/* ---------- Standalone app (GitHub Pages) ---------- */
+let installEvt = null;
+if (!IN_CLAUDE) {
+  const add = (rel, href, extra) => { const l = document.createElement("link"); l.rel = rel; l.href = href; Object.assign(l, extra || {}); document.head.append(l); };
+  add("manifest", "manifest.webmanifest"); add("icon", "icons/icon-192.png", {type: "image/png"}); add("apple-touch-icon", "icons/apple-touch-icon.png");
+  installEvt = window.__paseoInstall; if (installEvt) $("installBtn").hidden = false;
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; $("installBtn").hidden = false; });
+  addEventListener("appinstalled", () => { installEvt = null; $("installBtn").hidden = true; });
+}
+$("installBtn").onclick = async () => { if (!installEvt) return; installEvt.prompt(); try { await installEvt.userChoice; } catch(e){} installEvt = null; $("installBtn").hidden = true; };
+
+/* ---------- Boot ---------- */
+setSync(false);
+$("roleplay").checked = S.roleplay; $("dSk").checked = S.dSk; $("withSentence").checked = !!S.withSentence;
+renderMode(); renderRate(); renderVoices(); renderKeys();
+loadData().then(() => {
+  if (migrate()) { LS.set(STORE + ".progress", P); scheduleSync(); }
+  $("loading").hidden = true;
+  route();
+}).catch(err => {
+  console.error(err);
+  $("loading").innerHTML = "Kurz sa nepodarilo načítať. Skontroluj pripojenie a <button class=\"btn\" id=\"retry\">skús znova</button>";
+  const r = $("retry"); if (r) r.onclick = () => location.reload();
+});
+}
+</script>
+</body>
+</html>
