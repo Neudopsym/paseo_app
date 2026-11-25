@@ -712,6 +712,8 @@ const PASEO_LANGS = (() => { try { return JSON.parse(document.getElementById("pa
 const PASEO_STANDALONE = !/claude|anthropic/i.test(location.hostname);
 window.__paseoInstall = null;
 if (PASEO_STANDALONE) {
+  // The manifest must be there from the very start, otherwise Chrome offers installation only after a language is chosen.
+  [["manifest", "manifest.webmanifest"], ["icon", "icons/icon-192.png"], ["apple-touch-icon", "icons/apple-touch-icon.png"]].forEach(([rel, href]) => { const l = document.createElement("link"); l.rel = rel; l.href = href; document.head.append(l); });
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => {});
   // Chrome offers this event only while the app is not installed, so the buttons show only then.
   const pickInst = document.getElementById("pickInstall");
@@ -1575,7 +1577,6 @@ function refresh(){
 let installEvt = null;
 if (!IN_CLAUDE) {
   const add = (rel, href, extra) => { const l = document.createElement("link"); l.rel = rel; l.href = href; Object.assign(l, extra || {}); document.head.append(l); };
-  add("manifest", "manifest.webmanifest"); add("icon", "icons/icon-192.png", {type: "image/png"}); add("apple-touch-icon", "icons/apple-touch-icon.png");
   installEvt = window.__paseoInstall; if (installEvt) $("installBtn").hidden = false;
   addEventListener("beforeinstallprompt", e => { e.preventDefault(); installEvt = e; $("installBtn").hidden = false; });
   addEventListener("appinstalled", () => { installEvt = null; $("installBtn").hidden = true; });
